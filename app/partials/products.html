@@ -1,0 +1,16 @@
+<h1>Ofertas</h1>
+<div ng-repeat="product in products">
+  <div class="row">
+    <img src={{product.imgSource}} href="#/productDetails/{{product.id}}" class="thumb col-md-4"  alt="Bird"></td>
+    <div class="col-md-8">
+      <h3>{{product.name}}</h3>
+      <p>
+        Precio Normal: {{product.normalPrice}}
+      </p>
+      <p>
+        Precio Descuento: {{product.newPrice}}
+      </p>
+    </div>
+  </div>
+  <p></p>
+</div>

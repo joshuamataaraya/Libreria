@@ -1,0 +1,14 @@
+{
+    "descripcion": "Good Movie",
+    "clasificacion": {
+        "cateogria": "Pelicula",
+        "subcategoria": "Comedia"
+    },
+
+    "images": [
+        "img/products/Scary_Movie-1.jpg"
+        "img/products/Scary_Movie-1.jpg",
+    ],
+    "name": "Scarry Movie",
+    "precio": 500
+}
