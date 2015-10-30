@@ -9,95 +9,27 @@ mnemonicApp.controller('OffertsListCtrl', function ($scope, $http,$rootScope) {
   .success(function(response) {$scope.products = response;});
   });
 
+mnemonicApp.controller('booksCtrl', function ($scope, $http) {
+  $http.get("http://localhost:800/getCategorias.php?name=Libros")
+  .success(function(response) {$scope.products = response;});
+  });
+mnemonicApp.controller('musicCtrl', function ($scope, $http) {
+  $http.get("http://localhost:800/getCategorias.php?name=Musica")
+  .success(function(response) {$scope.products = response;});
+  });
+mnemonicApp.controller('comicsCtrl', function ($scope, $http) {
+  $http.get("http://localhost:800/getCategorias.php?name=Comics")
+  .success(function(response) {$scope.products = response;});
+  });
+mnemonicApp.controller('severalArticlesCtrl', function ($scope, $http) {
+  $http.get("http://localhost:800/getCategorias.php?name=Varios")
+  .success(function(response) {$scope.products = response;});
+  });
 
-
-mnemonicApp.controller('booksCtrl', function ($scope,$location) {
-  $scope.products = [
-    {'name': 'Movie1',
-    'id':1,
-    'snippet': 'buena peli.',
-    'normalPrice': 100,
-    'newPrice': 50,
-    'imgSource':'img/Products/Scary_Movie-1.jpg'},
-    {'name': 'Book1',
-    'id':2,
-    'snippet': 'buena peli.',
-    'normalPrice': 100,
-    'newPrice': 50,
-    'imgSource':'img/Products/Scary_Movie-1.jpg'}
-  ];
-  $scope.editar=function(){
-
-  }
-});
-
-mnemonicApp.controller('musicCtrl', function ($scope) {
-  $scope.products = [
-    {'name': 'Movie1',
-    'id':1,
-    'snippet': 'buena peli.',
-    'normalPrice': 100,
-    'newPrice': 50,
-    'imgSource':'img/Products/Scary_Movie-1.jpg'},
-    {'name': 'Book1',
-    'id':2,
-    'snippet': 'buena peli.',
-    'normalPrice': 100,
-    'newPrice': 50,
-    'imgSource':'img/Products/Scary_Movie-1.jpg'}
-  ];
-});
-
-mnemonicApp.controller('comicsCtrl', function ($scope) {
-  $scope.products = [
-    {'name': 'Movie1',
-    'id':1,
-    'snippet': 'buena p   eli.',
-    'normalPrice': 100,
-    'newPrice': 50,
-    'imgSource':'img/Products/Scary_Movie-1.jpg'},
-    {'name': 'Book1',
-    'id':2,
-    'snippet': 'buena peli.',
-    'normalPrice': 100,
-    'newPrice': 50,
-    'imgSource':'img/Products/Scary_Movie-1.jpg'}
-  ];
-});
-
-mnemonicApp.controller('severalArticlesCtrl', function ($scope) {
-  $scope.products = [
-    {'name': 'Movie1',
-    'id':1,
-    'snippet': 'buena peli.',
-    'normalPrice': 100,
-    'newPrice': 50,
-    'imgSource':'img/Products/Scary_Movie-1.jpg'},
-    {'name': 'Book1',
-    'id':2,
-    'snippet': 'buena peli.',
-    'normalPrice': 100,
-    'newPrice': 50,
-    'imgSource':'img/Products/Scary_Movie-1.jpg'}
-  ];
-});
-
-mnemonicApp.controller('moviesCtrl', function ($scope) {
-  $scope.products = [
-    {'name': 'Movie1',
-    'id':1,
-    'snippet': 'buena peli.',
-    'normalPrice': 100,
-    'newPrice': 50,
-    'imgSource':'img/Products/Scary_Movie-1.jpg'},
-    {'name': 'Book1',
-    'id':2,
-    'snippet': 'buena peli.',
-    'normalPrice': 100,
-    'newPrice': 50,
-    'imgSource':'img/Products/Scary_Movie-1.jpg'}
-  ];
-});
+mnemonicApp.controller('moviesCtrl', function ($scope, $http) {
+  $http.get("http://localhost:800/getCategorias.php?name=Peliculas")
+  .success(function(response) {$scope.products = response;});
+  });
 
 mnemonicApp.controller('shoppingCartCtrl', function ($scope,$location) {
   var viewCart=function(){
@@ -122,18 +54,26 @@ mnemonicApp.controller('shoppingCartCtrl', function ($scope,$location) {
   }
   $scope.viewCart=viewCart();
 });
-mnemonicApp.controller('loginCtrl', function ($scope,$location,$rootScope) {
-  $scope.login=function(){ //aqui hay que revisar de la base de datos los credenciales del usuario y ver que tipo es
-    $rootScope.isAdmin=true;
-    $rootScope.isLogged=true;
+mnemonicApp.controller('loginCtrl', function ($scope, $http) {
+  $scope.login=function(){
+    var url = "http://localhost:800/userType.php?email="+ $scope.email+"&pass="+$scope.password;
+    $http.get(url)
+    .success(function(response) {$scope.valid = response;});
+    angular.forEach($scope.valid, function(value, key) {
+        if(value.type=='admin'){
+          $rootScope.isAdmin=true;
+        }else if (value.type=='false') {
+          $rootScope.isLogged=false;
+        }else {
+          $rootScope.isLogged=true;
+        }
+      }
+    );
   };
   $scope.logout=function(){
     $rootScope.isAdmin=false;
     $rootScope.isLogged=false;
-
   };
-
-  $scope.userType=$rootScope.userType;
   $scope.email="";
   $scope.password="";
 });

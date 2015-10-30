@@ -11,7 +11,7 @@ mnemonicApp.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
       when('/offerts', {
-        templateUrl: 'partials/products.html',
+        templateUrl: 'partials/ofertas.html',
         controller: 'OffertsListCtrl'
       }).
       when('/login', {
