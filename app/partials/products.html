@@ -1,14 +1,14 @@
 <h1>Ofertas</h1>
 <div ng-repeat="product in products">
   <div class="row">
-    <img src={{product.imgSource}} href="#/productDetails/{{product.id}}" class="thumb col-md-4"  alt="Bird"></td>
+    <img src={{product.imgSource}} href="#/productDetails/{{product.id}}" class="thumb col-md-4"  alt="Bird"></td> 
     <div class="col-md-8">
-      <h3>{{product.name}}</h3>
+      <h3>{{product.nombre}}</h3>
       <p>
-        Precio Normal: {{product.normalPrice}}
+        Precio Normal: {{product.precio}}
       </p>
       <p>
-        Precio Descuento: {{product.newPrice}}
+        Precio Descuento: {{product.precioOferta}}
       </p>
       <form method="post" action="https://www.paypal.com/cgi-bin/webscr">
         <input type="hidden" name="cmd" value="_cart">
