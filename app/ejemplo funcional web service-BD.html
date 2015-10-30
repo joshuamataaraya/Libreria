@@ -12,11 +12,11 @@
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body>
- 
+
 <div id="images"><p>Informacion</p></div>
 
- 
- 
+
+
 <script>
 ($(document).ready(function() {
     $.getJSON( "http://localhost:800/ex.php", function( data ) {
@@ -24,7 +24,7 @@
   $.each( data, function( key, val ) {
     items.push( "<li id='" + key + "'>" + val.Nombre + val.id + "</li>" );
   });
- 
+
   $( "<ul/>", {
     "class": "my-new-list",
     html: items.join( "" )
@@ -33,6 +33,6 @@
 )
 );
 </script>
- 
+
 </body>
 </html>

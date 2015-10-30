@@ -18,6 +18,9 @@ mnemonicApp.config(['$routeProvider',
         templateUrl: 'partials/login.html',
         controller: 'loginCtrl'
       }).
+      when('/logout', {
+        controller: 'logoutCtrl'
+      }).
       when('/newLogin', {
         templateUrl: 'partials/newLogin.html',
         controller: 'newLoginCtrl'
@@ -43,8 +46,57 @@ mnemonicApp.config(['$routeProvider',
         controller: 'moviesCtrl'
       }).
       when('/shoppingCart', {
+        resolve:{
+          "check":function($location,$rootScope){
+            if(!$rootScope.isLogged){
+              $location.path('/login');
+            }
+          }
+        },
         templateUrl: 'partials/shoppingCart.html',
-        controller: 'shoppingCart'
+        controller: 'shoppingCartCtrl'
+      }).
+      when('/addProduct', {
+        resolve:{
+          "check":function($location,$rootScope){
+            if(!$rootScope.isLogged ){
+              if(!$rootScope.isAdmin){
+                alert('Esta opcion solo esta disponible para administradores')
+                $location.path('/login');
+              }
+            }
+          }
+        },
+        templateUrl: 'partials/addProduct.html',
+        controller: 'addProductCtrl'
+      }).
+      when('/addOffert', {
+        resolve:{
+          "check":function($location,$rootScope){
+            if(!$rootScope.isLogged ){
+              if(!$rootScope.isAdmin){
+                alert('Esta opcion solo esta disponible para administradores')
+                $location.path('/login');
+              }
+            }
+          }
+        },
+        templateUrl: 'partials/addOffert.html',
+        controller: 'addOffertCtrl'
+      }).
+      when('/specifyDiscount', {
+        resolve:{
+          "check":function($location,$rootScope){
+            if(!$rootScope.isLogged ){
+              if(!$rootScope.isAdmin){
+                alert('Esta opcion solo esta disponible para administradores')
+                $location.path('/login');
+              }
+            }
+          }
+        },
+        templateUrl: 'partials/specifyDiscount.html',
+        controller: 'specifyDiscountCtrl'
       }).
       otherwise({
         redirectTo: '/offerts'

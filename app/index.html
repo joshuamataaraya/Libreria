@@ -2,7 +2,7 @@
 <html lang="en" ng-app="mnemonicApp">
 <head>
   <meta charset="utf-8">
-  <title>My HTML File</title>
+  <title>Mnemonic</title>
   <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
   <link rel="stylesheet" href="css/app.css">
   <script src="../bower_components/angular/angular.js"></script>
@@ -34,7 +34,7 @@
  <div class="col-md-1"></div>
  <div class="col-md-10">
    <nav class="navbar navbar-default">
-     <div class="container-fluid">
+     <div class="container-fluid" ng-controller="loginCtrl">
        <!-- Brand and toggle get grouped for better mobile display -->
        <div class="navbar-header">
          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -45,12 +45,23 @@
          </button>
        </div>
        <img src="img/banner2.png" class="img-responsive" style="display:inline" alt="Bird" width="350" height="350">
-       <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
-         <ul class="nav navbar-nav">
-           <li><a href="#/newLogin">Registrarse<span class="sr-only">(current)</span></a></li>
-           <li><a href="#/login">Login<span class="sr-only">(current)</span></a></li>
-         </ul>
+
+       <div ng-hide="isLogged">
+         <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+           <ul class="nav navbar-nav">
+             <li><a href="#/newLogin">Registrarse<span class="sr-only">(current)</span></a></li>
+             <li><a href="#/login">Login<span class="sr-only">(current)</span></a></li>
+           </ul>
+         </div>
        </div>
+       <div ng-show="isLogged">
+         <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+           <ul class="nav navbar-nav">
+             <li><a ng-click="logout()">Logout<span class="sr-only">(current)</span></a></li>
+           </ul>
+         </div>
+       </div>
+
        <div class="collapse navbar-collapse navbar-left" id="bs-example-navbar-collapse-1">
          <ul class="nav navbar-nav">
            <li><a href="#/books">Libros<span class="sr-only">(current)</span></a></li>
@@ -58,18 +69,17 @@
            <li><a href="#/comics">Comics<span class="sr-only">(current)</span></a></li>
            <li><a href="#/severalArticles">Articulos Varios<span class="sr-only">(current)</span></a></li>
            <li><a href="#/movies">Peliculas<span class="sr-only">(current)</span></a></li>
-           <li><form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post" >
-             <input type="hidden" name="cmd" value="_s-xclick">
-             <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
-             ">
-             <input type="image" src="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_viewcart_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-             <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-           </form></li>
+           <li ng-hide="isAdmin"><a href="#/shoppingCart">Carro de compra<span class="sr-only">(current)</span></a></li>
+
+           <li ng-show="isAdmin"><a href="#/addProduct">Agregar Producto<span class="sr-only">(current)</span></a></li>
+           <li ng-show="isAdmin"><a href="#/addOffert">Agregar Oferta<span class="sr-only">(current)</span></a></li>
+           <li ng-show="isAdmin"><a href="#/specifyDiscount">Cambiar Descuento<span class="sr-only">(current)</span></a></li>
          </ul>
        </div>
        <!-- /.navbar-collapse -->
      </div><!-- /.container-fluid -->
    </nav>
+
    <body ng-controller="OffertsListCtrl">
      <div class="view-container">
        <div ng-view class="view-frame"></div>
