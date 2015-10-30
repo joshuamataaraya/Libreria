@@ -3,22 +3,14 @@
 /* Controllers */
 var mnemonicApp = angular.module('mnemonicControllers', []);
 
-mnemonicApp.controller('OffertsListCtrl', function ($scope) {
-  $scope.products = [
-    {'name': 'Movie1',
-    'id':1,
-    'snippet': 'buena peli.',
-    'normalPrice': 100,
-    'newPrice': 50,
-    'imgSource':'img/Products/Scary_Movie-1.jpg'},
-    {'name': 'Book1',
-    'id':2,
-    'snippet': 'buena peli.',
-    'normalPrice': 100,
-    'newPrice': 50,
-    'imgSource':'img/Products/Scary_Movie-1.jpg'}
-  ];
-});
+mnemonicApp.controller('OffertsListCtrl', function ($scope, $http) {
+
+  $http.get("http://localhost:800/getOfertas.php")
+  .success(function(response) {$scope.products = response;}); 
+    // body...
+  });
+
+
 
 mnemonicApp.controller('booksCtrl', function ($scope) {
   $scope.products = [
