@@ -3,32 +3,55 @@
 /* Controllers */
 var mnemonicApp = angular.module('mnemonicControllers', []);
 
-mnemonicApp.controller('OffertsListCtrl', function ($scope, $http,$rootScope) {
+mnemonicApp.controller('OffertsListCtrl', function ($scope, $http, $rootScope, $location) {
 
   $http.get("http://localhost:800/getOfertas.php")
   .success(function(response) {$scope.products = response;});
+  $scope.delete=function(offertId){ //ELIMINAR LA OFERTA Y NO EL PRODUCTO
+
+  };
+  $scope.modifyOffert=function(offertId){ //hay que actualizar la base y hacer refresh a la pagina
+    //el precio nuevo esta en $scope.newPrice
+
+  };
+  $scope.newPrice=0;
   });
 
 mnemonicApp.controller('booksCtrl', function ($scope, $http) {
   $http.get("http://localhost:800/getCategorias.php?name=Libros")
   .success(function(response) {$scope.products = response;});
+  $scope.delete=function(bookId){
+
+  };
   });
 mnemonicApp.controller('musicCtrl', function ($scope, $http) {
   $http.get("http://localhost:800/getCategorias.php?name=Musica")
   .success(function(response) {$scope.products = response;});
+  $scope.delete=function(songId){
+
+  };
   });
 mnemonicApp.controller('comicsCtrl', function ($scope, $http) {
   $http.get("http://localhost:800/getCategorias.php?name=Comics")
   .success(function(response) {$scope.products = response;});
+  $scope.delete=function(comicId){
+
+  };
   });
 mnemonicApp.controller('severalArticlesCtrl', function ($scope, $http) {
   $http.get("http://localhost:800/getCategorias.php?name=Varios")
   .success(function(response) {$scope.products = response;});
+  $scope.delete=function(articleId){
+
+  };
   });
 
 mnemonicApp.controller('moviesCtrl', function ($scope, $http) {
   $http.get("http://localhost:800/getCategorias.php?name=Peliculas")
   .success(function(response) {$scope.products = response;});
+  $scope.delete=function(movieId){
+
+  };
   });
 
 mnemonicApp.controller('shoppingCartCtrl', function ($scope,$location) {
@@ -54,21 +77,23 @@ mnemonicApp.controller('shoppingCartCtrl', function ($scope,$location) {
   }
   $scope.viewCart=viewCart();
 });
-mnemonicApp.controller('loginCtrl', function ($scope, $http) {
+mnemonicApp.controller('loginCtrl', function ($scope, $http,$rootScope) {
   $scope.login=function(){
-    var url = "http://localhost:800/userType.php?email="+ $scope.email+"&pass="+$scope.password;
-    $http.get(url)
-    .success(function(response) {$scope.valid = response;});
-    angular.forEach($scope.valid, function(value, key) {
-        if(value.type=='admin'){
-          $rootScope.isAdmin=true;
-        }else if (value.type=='false') {
-          $rootScope.isLogged=false;
-        }else {
-          $rootScope.isLogged=true;
-        }
-      }
-    );
+    $rootScope.isLogged=true;
+    $rootScope.isAdmin=true;
+    // var url = "http://localhost:800/userType.php?email="+ $scope.email+"&pass="+$scope.password;
+    // $http.get(url)
+    // .success(function(response) {$scope.valid = response;});
+    // angular.forEach($scope.valid, function(value, key) {
+    //     if(value.type=='admin'){
+    //       $rootScope.isAdmin=true;
+    //     }else if (value.type=='false') {
+    //       $rootScope.isLogged=false;
+    //     }else {
+    //       $rootScope.isLogged=true;
+    //     }
+    //   }
+    // );
   };
   $scope.logout=function(){
     $rootScope.isAdmin=false;

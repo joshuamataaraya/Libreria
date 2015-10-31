@@ -9,13 +9,8 @@ $qur = mysql_query("select p.nombre, p.precio, p.precioOferta, p.imagen from pro
 $result = array();
 while($r = mysql_fetch_array($qur)){
   extract($r);
-<<<<<<< HEAD
 
-  $result[] = array("nombre" => $nombre, "precio" => $precio, "precioOferta" => $precioOferta);
-=======
-  
   $result[] = array("nombre" => $nombre, "precio" => $precio, "precioOferta" => $precioOferta, "imagen" => $imagen);
->>>>>>> a44fa45a31d0f91eca72ecdd63955e69393c1e75
 }
 @mysql_close($conn);
 /*Output*/

@@ -1,7 +1,7 @@
 <?php
 //connect
 ini_set('display_errors', 1);
-$conn = mysql_connect("127.0.0.1:3306", "root", "");
+$conn = mysql_connect("localhost", "root", "Lopezx01");
 mysql_select_db('mnemonic', $conn);
 
 $Name = $_GET["name"];
