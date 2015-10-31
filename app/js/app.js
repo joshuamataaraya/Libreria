@@ -45,6 +45,10 @@ mnemonicApp.config(['$routeProvider',
         templateUrl: 'partials/products.html',
         controller: 'moviesCtrl'
       }).
+      when('/productDetails/:products', {
+        templateUrl: 'partials/productDetails.html',
+        controller: 'detailsCtrl'
+      }).
       when('/shoppingCart', {
         resolve:{
           "check":function($location,$rootScope){
