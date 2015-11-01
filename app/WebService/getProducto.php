@@ -4,11 +4,11 @@ ini_set('display_errors', 1);
 $conn = mysql_connect("localhost", "root", "");
 mysql_select_db('mnemonic', $conn);
 
-$Name = $_GET["name"];
-$Name2     = mysql_real_escape_string($Name);
+$Id = $_GET["id"];
+$Id2     = mysql_real_escape_string($Id);
 //call query
 $qur = mysql_query("select p.id, p.nombre, p.descripcion, p.imagen, p.precio, p.categoria, p.subCategoria
- from productos p where p.inventario = true and p.categoria = '$Name2' ");
+ from productos p where p.id = '$Id2' ");
 
 $result = array();
 while($r = mysql_fetch_array($qur)){

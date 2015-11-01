@@ -1,7 +1,7 @@
 'use strict';
 
 /* Controllers */
-var mnemonicApp = angular.module('mnemonicControllers', ['ngFileUpload']);
+var mnemonicApp = angular.module('mnemonicControllers', []);
 mnemonicApp.controller('OffertsListCtrl', function ($scope, $http, $rootScope, $location) {
 
   $http.get("http://localhost:800/getOfertas.php")
@@ -13,44 +13,92 @@ mnemonicApp.controller('OffertsListCtrl', function ($scope, $http, $rootScope, $
   $scope.modifyOffert=function(offert){
     //hay que actualizar la base y hacer refresh a la pagina
   };
+  $scope.loadView =function(productId){
+    $location.path('/productDetails/'+productId);
+  }
   });
 
-mnemonicApp.controller('booksCtrl', function ($scope, $http) {
+mnemonicApp.controller('booksCtrl', function ($scope,$location,$http) {
+
   $http.get("http://localhost:800/getCategorias.php?name=Libros")
   .success(function(response) {$scope.products = response;});
   $scope.delete=function(bookId){
 
   };
+
+  $scope.loadView =function(productId){
+    $location.path('/productDetails/'+productId);
+  }
+
+  $scope.categoryName = "Libros";
+
   });
-mnemonicApp.controller('musicCtrl', function ($scope, $http) {
+
+
+mnemonicApp.controller('musicCtrl', function ($scope,$location,$http) {
+
   $http.get("http://localhost:800/getCategorias.php?name=Musica")
   .success(function(response) {$scope.products = response;});
   $scope.delete=function(songId){
 
   };
+
+  $scope.loadView =function(productId){
+    $location.path('/productDetails/'+productId);
+  }
+
+  $scope.categoryName = "Musica";
   });
-mnemonicApp.controller('comicsCtrl', function ($scope, $http) {
+
+
+mnemonicApp.controller('comicsCtrl', function ($scope,$location,$http) {
+
   $http.get("http://localhost:800/getCategorias.php?name=Comics")
   .success(function(response) {$scope.products = response;});
   $scope.delete=function(comicId){
 
   };
+
+  $scope.loadView =function(productId){
+    $location.path('/productDetails/'+productId);
+  }
+
+  $scope.categoryName = "Comics";
+
   });
-mnemonicApp.controller('severalArticlesCtrl', function ($scope, $http) {
+
+
+mnemonicApp.controller('severalArticlesCtrl', function ($scope,$location,$http) {
   $http.get("http://localhost:800/getCategorias.php?name=Varios")
   .success(function(response) {$scope.products = response;});
   $scope.delete=function(articleId){
 
   };
+
+  $scope.loadView =function(productId){
+    $location.path('/productDetails/'+productId);
+  }
+
+  $scope.categoryName = "Articulos Varios";
+
   });
 
-mnemonicApp.controller('moviesCtrl', function ($scope, $http) {
+
+mnemonicApp.controller('moviesCtrl', function ($scope,$location,$http) {
   $http.get("http://localhost:800/getCategorias.php?name=Peliculas")
   .success(function(response) {$scope.products = response;});
+
   $scope.delete=function(movieId){
 
   };
+
+  $scope.loadView =function(productId){
+    $location.path('/productDetails/'+productId);
+  }
+
+  $scope.categoryName = "Peliculas";
   });
+
 
 mnemonicApp.controller('shoppingCartCtrl', function ($scope,$location) {
   var viewCart=function(){
@@ -109,9 +157,13 @@ mnemonicApp.controller('newLoginCtrl', function ($scope) {
   $scope.email="";
   $scope.password="";
 });
-mnemonicApp.controller('addProductCtrl', function ($scope,Upload) {
+mnemonicApp.controller('addProductCtrl', function ($scope) {
 });
 mnemonicApp.controller('addOffertCtrl', function ($scope) {
 });
 mnemonicApp.controller('specifyDiscountCtrl', function ($scope) {
+});
+mnemonicApp.controller('detailsCtrl', function ($scope, $routeParams, $http) {
+  $http.get("http://localhost:800/getProducto.php?id="+$routeParams.products)
+  .success(function(response) {$scope.productDetails = response[0];}); //Falta agregar las reseñas de cada producto
 });

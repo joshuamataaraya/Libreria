@@ -12,7 +12,6 @@
     "bootstrap": "~3.1.1",
     "angular-route": "1.4.x",
     "angular-resource": "1.4.x",
-    "angular-animate": "1.4.x",
-    "ng-file-upload-shim": "~9.1.1"
+    "angular-animate": "1.4.x"
   }
 }
