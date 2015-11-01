@@ -11,42 +11,42 @@ mnemonicApp.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
       when('/offerts', {
-        templateUrl: 'partials/ofertas.html',
+        templateUrl: 'app/partials/ofertas.html',
         controller: 'OffertsListCtrl'
       }).
       when('/login', {
-        templateUrl: 'partials/login.html',
+        templateUrl: 'app/partials/login.html',
         controller: 'loginCtrl'
       }).
       when('/logout', {
         controller: 'logoutCtrl'
       }).
       when('/newLogin', {
-        templateUrl: 'partials/newLogin.html',
+        templateUrl: 'app/partials/newLogin.html',
         controller: 'newLoginCtrl'
       }).
       when('/books', {
-        templateUrl: 'partials/products.html',
+        templateUrl: 'app/partials/products.html',
         controller: 'booksCtrl'
       }).
       when('/music', {
-        templateUrl: 'partials/products.html',
+        templateUrl: 'app/partials/products.html',
         controller: 'musicCtrl'
       }).
       when('/comics', {
-        templateUrl: 'partials/products.html',
+        templateUrl: 'app/partials/products.html',
         controller: 'comicsCtrl'
       }).
       when('/severalArticles', {
-        templateUrl: 'partials/products.html',
+        templateUrl: 'app/partials/products.html',
         controller: 'severalArticlesCtrl'
       }).
       when('/movies', {
-        templateUrl: 'partials/products.html',
+        templateUrl: 'app/partials/products.html',
         controller: 'moviesCtrl'
       }).
       when('/productDetails/:products', {
-        templateUrl: 'partials/productDetails.html',
+        templateUrl: 'app/partials/productDetails.html',
         controller: 'detailsCtrl'
       }).
       when('/shoppingCart', {
@@ -57,7 +57,7 @@ mnemonicApp.config(['$routeProvider',
             }
           }
         },
-        templateUrl: 'partials/shoppingCart.html',
+        templateUrl: 'app/partials/shoppingCart.html',
         controller: 'shoppingCartCtrl'
       }).
       when('/addProduct', {
@@ -71,7 +71,7 @@ mnemonicApp.config(['$routeProvider',
             }
           }
         },
-        templateUrl: 'partials/addProduct.html',
+        templateUrl: 'app/partials/addProduct.html',
         controller: 'addProductCtrl'
       }).
       when('/addOffert', {
@@ -85,7 +85,7 @@ mnemonicApp.config(['$routeProvider',
             }
           }
         },
-        templateUrl: 'partials/addOffert.html',
+        templateUrl: 'app/partials/addOffert.html',
         controller: 'addOffertCtrl'
       }).
       when('/specifyDiscount', {
@@ -99,7 +99,7 @@ mnemonicApp.config(['$routeProvider',
             }
           }
         },
-        templateUrl: 'partials/specifyDiscount.html',
+        templateUrl: 'app/partials/specifyDiscount.html',
         controller: 'specifyDiscountCtrl'
       }).
       otherwise({
