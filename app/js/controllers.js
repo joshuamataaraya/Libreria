@@ -81,6 +81,12 @@ mnemonicApp.controller('severalArticlesCtrl', function ($scope,$location,$http) 
 
   $scope.categoryName = "Articulos Varios";
 
+  //funcion para mandar correo, no va aqui, pero es para pruebas!!!!
+  /*$scope.sendMail = function(){
+    socket.emit('email','hola!! mensaje personalizado');
+  }*/   
+
+
   });
 
 
@@ -121,6 +127,7 @@ mnemonicApp.controller('shoppingCartCtrl', function ($scope,$location) {
     document.body.appendChild(form);
     form.submit();
   }
+
   $scope.viewCart=viewCart();
 });
 mnemonicApp.controller('loginCtrl', function ($scope, $http,$rootScope,$location) {

@@ -1,7 +1,40 @@
 var express         =       require("express");
 var multer          =       require('multer');
 var app             =       express();
+var server          =   app.listen(3000);
+var io              =       require('socket.io').listen(server)
+var nodemailer = require('nodemailer');
 var upload      =   multer({ dest: './app/img/Products'});
+
+var transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+        user: 'adrianlq8@gmail.com',
+        pass: '' //hay que crear una cuenta especial para mnemonic
+    }
+});
+
+// send mail with defined transport object
+
+io.on("connection", function(socket) {
+    socket.on('email', function(msg){
+        var mailOptions = {
+            from: 'Mnemonic ✔ <adrianlq8@gmail.com>', // sender address
+            to: 'adrianlq8@gmail.com', // list of receivers
+            subject: 'Hello ✔', // Subject line
+            text: msg // plaintext body
+        };
+        transporter.sendMail(mailOptions, function(error, info){
+            if(error){
+                return console.log(error);
+            }
+            console.log('Message sent: ' + info.response);
+
+        });
+    })
+});
+
+
 
 app.use(multer({ dest: './app/img/Products',
     rename: function (fieldname, filename) {
@@ -30,6 +63,3 @@ app.post('',function(req,res){
     });
 });
 
-app.listen(3000,function(){
-    console.log("Working on port 3000");
-});
