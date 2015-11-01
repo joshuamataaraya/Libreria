@@ -27,12 +27,10 @@
         <input type="image" src="http://www.paypalobjects.com/en_GB/i/btn/x-click-but22.gif" border="0" name="submit" width="87" height="23" alt="Make payments with PayPal - it's fast, free and secure.">
       </form>
       <p>
-        <button type="button" ng-show="isAdmin" class="btn btn-default btn-lg" name="button" ng-click="modifyOffert(product.id)">ModificarOferta</button>
-        <input type="text"  ng-show="isAdmin" name="name" ng-model="newPrice">
-        <input type="text"  ng-show="isAdmin" name="name" ng-model="newPrice">
-
+        <button type="button" ng-show="isAdmin" class="btn btn-default btn-lg" name="button" ng-click="modifyOffert(product)">ModificarOferta</button>
+        <input type="text"  ng-show="isAdmin" name="name" ng-model="product.precioOferta">
       </p>
-      <button type="button" ng-show="isAdmin" class="btn btn-default btn-lg" name="button" ng-click="delete(product.id)">Eliminar Producto</button>
+      <button type="button" ng-show="isAdmin" class="btn btn-default btn-lg" name="button" ng-click="delete(product)">Eliminar Oferta</button>
 
     </div>
   </div>

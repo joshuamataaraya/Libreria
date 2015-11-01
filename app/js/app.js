@@ -4,7 +4,8 @@
 var mnemonicApp = angular.module('mnemonicApp', [
   'ngRoute',
 
-  'mnemonicControllers'
+  'mnemonicControllers',
+  'angularFileUpload'
 ]);
 
 mnemonicApp.config(['$routeProvider',

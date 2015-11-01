@@ -1,20 +1,18 @@
 'use strict';
 
 /* Controllers */
-var mnemonicApp = angular.module('mnemonicControllers', []);
-
+var mnemonicApp = angular.module('mnemonicControllers', ['ngFileUpload']);
 mnemonicApp.controller('OffertsListCtrl', function ($scope, $http, $rootScope, $location) {
 
   $http.get("http://localhost:800/getOfertas.php")
   .success(function(response) {$scope.products = response;});
-  $scope.delete=function(offertId){ //ELIMINAR LA OFERTA Y NO EL PRODUCTO
-
+  $scope.delete=function(offert){
+    $scope.products.splice(offert,1);
+    //ELIMINAR LA OFERTA Y NO EL PRODUCTO de la base
   };
-  $scope.modifyOffert=function(offertId){ //hay que actualizar la base y hacer refresh a la pagina
-    //el precio nuevo esta en $scope.newPrice
-
+  $scope.modifyOffert=function(offert){
+    //hay que actualizar la base y hacer refresh a la pagina
   };
-  $scope.newPrice=0;
   });
 
 mnemonicApp.controller('booksCtrl', function ($scope, $http) {
@@ -77,7 +75,7 @@ mnemonicApp.controller('shoppingCartCtrl', function ($scope,$location) {
   }
   $scope.viewCart=viewCart();
 });
-mnemonicApp.controller('loginCtrl', function ($scope, $http,$rootScope) {
+mnemonicApp.controller('loginCtrl', function ($scope, $http,$rootScope,$location) {
   $scope.login=function(){
     $rootScope.isLogged=true;
     $rootScope.isAdmin=true;
@@ -111,7 +109,7 @@ mnemonicApp.controller('newLoginCtrl', function ($scope) {
   $scope.email="";
   $scope.password="";
 });
-mnemonicApp.controller('addProductCtrl', function ($scope) {
+mnemonicApp.controller('addProductCtrl', function ($scope,Upload) {
 });
 mnemonicApp.controller('addOffertCtrl', function ($scope) {
 });

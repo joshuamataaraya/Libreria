@@ -1,1 +1,31 @@
-addProduct
+<h1>Agregar Producto</h1>
+<div>
+  <form name="productForm">
+  <p>
+    Nombre:
+    <input type="text" name="name" ng-model="nombre" value="Producto" required>
+  </p>
+  <div role="alert">
+      <span class="error" ng-show="productForm.name.$error.required">
+       Requerido!</span>
+    </div>
+
+  <input ng-model="image" type="file">
+
+  <p>
+    Precio:
+    <input type="text" ng-pattern="/^[0-9]{1,7}$/" value="Precio" name="precio" ng-model="precio" required>
+  </p>
+  <div role="alert">
+      <span class="error" ng-show="productForm.precio.$error.required">
+       Requerido!</span>
+    </div>
+  <div role="alert">
+      <span class="error" ng-show="productForm.precio.$error.pattern">
+       Por favor solo ingrese numeros!</span>
+    </div>
+
+
+  <button type="" name="button" ng-click="agregarProducto()">Agregar</button>
+  </form>
+</div>
