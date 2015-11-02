@@ -1,0 +1,41 @@
+<h1>{{productDetails.nombre}}</h1>
+<div class="row">
+  <img ng-src={{productDetails.imagen}}  class="thumb col-md-4"  alt="Bird"></td>
+  <div class="col-md-8">
+
+    <p>
+        Descripcion:
+        <input type="text"  ng-show="isAdmin" name="name" ng-model="productDetails.descripcion">
+    </p>
+    <p>
+        Categoria:
+        <input type="text"  ng-show="isAdmin" name="name" ng-model="productDetails.categoria">
+
+    </p>
+    <p>
+        Subcategoria:
+        <input type="text"  ng-show="isAdmin" name="name" ng-model="productDetails.subcategoria">
+    </p>
+    <p>
+      Precio Normal:
+      <input type="text"  ng-show="isAdmin" name="name" ng-model="productDetails.precio">
+    </p>
+    <p>
+      Precio Descuento:
+      <input type="text"  ng-show="isAdmin" name="name" ng-model="productDetails.precioOferta">
+    </p>
+    <button type="button" ng-show="isAdmin" class="btn btn-default btn-lg" name="button" ng-click="edit()">Modificar Producto</button>
+    </div>
+     <div class="col-md-1"></div>
+    </div>
+      <form id="uploadForm"
+         enctype   =  "multipart/form-data"
+         action    =  "/"
+         method    =  "post"
+      >
+      <input type="file" name="userPhoto" />
+      <input type="submit" value="Subir nueva imagen" name="submit">
+      </form>
+  </div>
+</div>
+<p></p>
