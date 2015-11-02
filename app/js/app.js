@@ -74,7 +74,7 @@ mnemonicApp.config(['$routeProvider',
         templateUrl: 'app/partials/addProduct.html',
         controller: 'addProductCtrl'
       }).
-      when('/addOffert', {
+      when('/editProduct/:products', {
         resolve:{
           "check":function($location,$rootScope){
             if(!$rootScope.isLogged ){
@@ -85,8 +85,8 @@ mnemonicApp.config(['$routeProvider',
             }
           }
         },
-        templateUrl: 'app/partials/addOffert.html',
-        controller: 'addOffertCtrl'
+        templateUrl: 'app/partials/editProduct.html',
+        controller: 'editProductCtrl'
       }).
       when('/specifyDiscount', {
         resolve:{

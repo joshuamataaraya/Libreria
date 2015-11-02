@@ -1,31 +1,49 @@
 <h1>Agregar Producto</h1>
-<div>
-  <form name="productForm">
-  <p>
-    Nombre:
-    <input type="text" name="name" ng-model="nombre" value="Producto" required>
-  </p>
-  <div role="alert">
-      <span class="error" ng-show="productForm.name.$error.required">
-       Requerido!</span>
+<div class="row">
+  <div class="col-md-8">
+    <p>
+        Nombre:
+        <input type="text"  ng-show="isAdmin" name="name" ng-model="product.nombre">
+    </p>
+    <p>
+        Descripcion:
+        <input type="text"  ng-show="isAdmin" name="name" ng-model="product.descripcion">
+    </p>
+    <p>
+        Categoria:
+        <select name="singleSelect" ng-model="product.categoria">
+          <option value="Libros">Libros</option>
+          <option value="Musica">Musica</option>
+          <option value="Comics">Comics</option>
+          <option value="Articulos Varios">Articulos Varios</option>
+          <option value="Peliculas">Peliculas</option>
+        </select>
+
+    </p>
+    <p>
+        Subcategoria:
+        <input type="text"  ng-show="isAdmin" name="name" ng-model="product.subcategoria">
+    </p>
+    <p>
+      Precio Normal:
+      <input type="text"  ng-show="isAdmin" name="name" ng-model="product.precio">
+    </p>
+    <p>
+      Precio Descuento:
+      <input type="text"  ng-show="isAdmin" name="name" ng-model="product.precioOferta">
+    </p>
     </div>
-
-  <input ng-model="image" type="file">
-
-  <p>
-    Precio:
-    <input type="text" ng-pattern="/^[0-9]{1,7}$/" value="Precio" name="precio" ng-model="precio" required>
-  </p>
-  <div role="alert">
-      <span class="error" ng-show="productForm.precio.$error.required">
-       Requerido!</span>
+     <div class="col-md-1"></div>
     </div>
-  <div role="alert">
-      <span class="error" ng-show="productForm.precio.$error.pattern">
-       Por favor solo ingrese numeros!</span>
-    </div>
-
-
-  <button type="" name="button" ng-click="agregarProducto()">Agregar</button>
-  </form>
+      <form id="uploadForm"
+         enctype   =  "multipart/form-data"
+         action    =  "/"
+         method    =  "post"
+      >
+      <input type="file" name="userPhoto" />
+      <input type="submit" value="Subir nueva imagen" name="submit">
+      </form>
+      <button type="button" ng-show="isAdmin" class="btn btn-default btn-lg" name="button" ng-click="addProduct()">Agregar</button>
+  </div>
 </div>
+<p></p>

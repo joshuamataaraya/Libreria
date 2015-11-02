@@ -1,7 +1,7 @@
 <?php
 //connect
 ini_set('display_errors', 1);
-$conn = mysql_connect("localhost", "root", "");
+$conn = mysql_connect("127.0.0.1:3306", "root", "");
 mysql_select_db('mnemonic', $conn);
 
 $Id = $_GET["id"];
@@ -23,7 +23,7 @@ $result = array();
 while($r = mysql_fetch_array($qur)){
   extract($r);
 
-  $qur2 = mysql_query("select r.descripcion, c.nombre from reseñas r, clientes c
+  $qur2 = mysql_query("select r.descripcion, c.nombre from resenas r, clientes c
   where r.idProducto = '$id'");
 
   $resenas = array();

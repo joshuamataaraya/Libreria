@@ -54,7 +54,7 @@ app.get('/',function(req,res){
 
 app.use(express.static(__dirname));
 
-app.post('',function(req,res){
+app.post('/',function(req,res){
     upload(req,res,function(err) {
         if(err) {
             return res.end("Error uploading file.");
@@ -62,4 +62,3 @@ app.post('',function(req,res){
 
     });
 });
-

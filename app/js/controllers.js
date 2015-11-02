@@ -22,12 +22,18 @@ mnemonicApp.controller('booksCtrl', function ($scope,$location,$http) {
 
   $http.get("http://localhost:800/getCategorias.php?name=Libros")
   .success(function(response) {$scope.products = response;});
-  $scope.delete=function(bookId){
+  $scope.delete=function(book){
 
   };
+  $scope.addOffert=function(book){
+
+  }
 
   $scope.loadView =function(productId){
     $location.path('/productDetails/'+productId);
+  }
+  $scope.edit=function(productId){
+    $location.path('/editProduct/'+productId);
   }
 
   $scope.categoryName = "Libros";
@@ -39,12 +45,18 @@ mnemonicApp.controller('musicCtrl', function ($scope,$location,$http) {
 
   $http.get("http://localhost:800/getCategorias.php?name=Musica")
   .success(function(response) {$scope.products = response;});
-  $scope.delete=function(songId){
+  $scope.delete=function(song){
 
   };
+  $scope.addOffert=function(song){
+
+  }
 
   $scope.loadView =function(productId){
     $location.path('/productDetails/'+productId);
+  }
+  $scope.edit=function(productId){
+    $location.path('/editProduct/'+productId);
   }
 
   $scope.categoryName = "Musica";
@@ -55,12 +67,18 @@ mnemonicApp.controller('comicsCtrl', function ($scope,$location,$http) {
 
   $http.get("http://localhost:800/getCategorias.php?name=Comics")
   .success(function(response) {$scope.products = response;});
-  $scope.delete=function(comicId){
+  $scope.delete=function(comic){
 
   };
+  $scope.addOffert=function(commic){
+
+  }
 
   $scope.loadView =function(productId){
     $location.path('/productDetails/'+productId);
+  }
+  $scope.edit=function(productId){
+    $location.path('/editProduct/'+productId);
   }
 
   $scope.categoryName = "Comics";
@@ -71,12 +89,18 @@ mnemonicApp.controller('comicsCtrl', function ($scope,$location,$http) {
 mnemonicApp.controller('severalArticlesCtrl', function ($scope,$location,$http) {
   $http.get("http://localhost:800/getCategorias.php?name=Varios")
   .success(function(response) {$scope.products = response;});
-  $scope.delete=function(articleId){
+  $scope.delete=function(article){
 
   };
+  $scope.addOffert=function(article){
+
+  }
 
   $scope.loadView =function(productId){
     $location.path('/productDetails/'+productId);
+  }
+  $scope.edit=function(productId){
+    $location.path('/editProduct/'+productId);
   }
 
   $scope.categoryName = "Articulos Varios";
@@ -84,7 +108,7 @@ mnemonicApp.controller('severalArticlesCtrl', function ($scope,$location,$http) 
   //funcion para mandar correo, no va aqui, pero es para pruebas!!!!
   /*$scope.sendMail = function(){
     socket.emit('email','hola!! mensaje personalizado');
-  }*/   
+  }*/
 
 
   });
@@ -94,9 +118,15 @@ mnemonicApp.controller('moviesCtrl', function ($scope,$location,$http) {
   $http.get("http://localhost:800/getCategorias.php?name=Peliculas")
   .success(function(response) {$scope.products = response;});
 
-  $scope.delete=function(movieId){
+  $scope.delete=function(movie){
 
   };
+  $scope.addOffert=function(book){
+
+  }
+  $scope.edit=function(productId){
+    $location.path('/editProduct/'+productId);
+  }
 
   $scope.loadView =function(productId){
     $location.path('/productDetails/'+productId);
@@ -165,12 +195,27 @@ mnemonicApp.controller('newLoginCtrl', function ($scope) {
   $scope.password="";
 });
 mnemonicApp.controller('addProductCtrl', function ($scope) {
-});
-mnemonicApp.controller('addOffertCtrl', function ($scope) {
+  //en $scope.product esta el producto para guardar en la base
+  $scope.addProduct=function(){
+    alert($scope.product.categoria)
+  }
 });
 mnemonicApp.controller('specifyDiscountCtrl', function ($scope) {
+  $scope.modify=function(){
+    alert($scope.descuento)
+  }
 });
 mnemonicApp.controller('detailsCtrl', function ($scope, $routeParams, $http) {
   $http.get("http://localhost:800/getProducto.php?id="+$routeParams.products)
   .success(function(response) {$scope.productDetails = response[0];}); //Falta agregar las reseñas de cada producto
+});
+mnemonicApp.controller('editProductCtrl', function ($scope, $routeParams, $http) {
+  $http.get("http://localhost:800/getProducto.php?id="+$routeParams.products)
+  .success(function(response) {$scope.productDetails = response[0];});
+  $scope.categorias=['Libros','Musica','Comics','Articulos Varios', 'Peliculas'];
+  $scope.edit=function(){
+    //hay que editar el producto con id guardado en: $routeParams.products
+    //los detalles del mismo producto quedan guardados en: $scope.productDetails.DETALLE
+
+  }
 });
