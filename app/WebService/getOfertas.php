@@ -1,7 +1,7 @@
 <?php
 //connect
 ini_set('display_errors', 1);
-$conn = mysql_connect("127.0.0.1:3306", "root", "");
+$conn = mysql_connect("localhost", "root", "");
 mysql_select_db('mnemonic', $conn);
 //call query
 $qur = mysql_query("select p.id, p.nombre, p.descripcion, p.imagen, p.precio, p.precioOferta, p.categoria, p.subCategoria

@@ -5,10 +5,11 @@
     <div class="col-md-8">
       <h3>{{product.nombre}}</h3>
       <p>
-        Precio Normal: {{product.precio}}
+        Precio Actual/Oferta: {{product.precio}}
       </p>
+      <p></p>
       <p>
-        Precio Descuento: {{product.precioOferta}}
+        Precio Cliente Frecuente: {{product.precioOferta}}
       </p>
       <form method="post" ng-hide="isAdmin" action="https://www.paypal.com/cgi-bin/webscr">
         <input type="hidden" name="cmd" value="_cart">
@@ -27,12 +28,12 @@
         <input type="image" src="http://www.paypalobjects.com/en_GB/i/btn/x-click-but22.gif" border="0" name="submit" width="87" height="23" alt="Make payments with PayPal - it's fast, free and secure.">
       </form>
       <p>
-        <button type="button" ng-show="isAdmin" class="btn btn-default btn-lg" name="button" ng-click="addOffert(product)">Agregar oferta</button>
-        <input type="text"  ng-show="isAdmin" name="name" ng-model="product.precioOferta">
+        <button type="button" ng-show="isAdmin" class="btn btn-default btn-lg" name="button" ng-click="addOffert(product.id, product.precio, newOffer)">Agregar oferta</button>
+        <input type="number"  ng-show="isAdmin" name="name" ng-model="newOffer">
       </p>
 
       <button type="button" ng-show="isAdmin" class="btn btn-default btn-lg" ng-click="edit(product.id)" name="button">Editar</button>
-      <button type="button" ng-show="isAdmin" class="btn btn-default btn-lg" ng-click="delete(product)" name="button">Eliminar Producto</button>
+      <button type="button" ng-show="isAdmin" class="btn btn-default btn-lg" ng-click="delete(product.id)" name="button">Eliminar Producto</button>
     </div>
   </div>
   <p></p>

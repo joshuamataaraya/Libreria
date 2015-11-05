@@ -1,7 +1,7 @@
 <?php
 //connect
 ini_set('display_errors', 1);
-$conn = mysql_connect("127.0.0.1:3306", "root", "");
+$conn = mysql_connect("localhost", "root", "");
 mysql_select_db('mnemonic', $conn);
 
 $Id = $_GET["id"];
@@ -23,25 +23,25 @@ $result = array();
 while($r = mysql_fetch_array($qur)){
   extract($r);
 
-  $qur2 = mysql_query("select r.descripcion, c.nombre from resenas r, clientes c
-  where r.idProducto = '$id'");
+  $qur2 = mysql_query("select r.descripcion as descrip, c.nombre as name from resenas r, clientes c
+  where r.idProducto = '$id' and r.idCliente = c.id");
 
   $resenas = array();
   while($r2 = mysql_fetch_array($qur2)){
     extract($r2);
-    $resenas[] = array("nombre" => $nombre, "descripcion" => $descripcion);
+    $resenas[] = array("nom" => $name, "descrip" => $descrip);
   }
 
   if($precioOferta==0){
   	$precioFrecuente = $precio - ($precio * $discount);
   	$result[] = array("id" => $id, "nombre" => $nombre, "descripcion" => $descripcion, "imagen" => $imagen,
-   "precio" => $precio, "precioFrecuente" => $precioFrecuente, "categoria" => $categoria,
+   "precio" => $precio, "precioOferta" => strval($precioFrecuente), "categoria" => $categoria,
     "subcategoria" => $subCategoria, "inventario" => true, "resenas" => $resenas);
 
   }else{
   	$precioFrecuente = $precioOferta - ($precioOferta * $discount);
   	$result[] = array("id" => $id, "nombre" => $nombre, "descripcion" => $descripcion, "imagen" => $imagen,
-   "precio" => $precioOferta, "precioFrecuente" => $precioFrecuente, "categoria" => $categoria,
+   "precio" => $precioOferta, "precioOferta" => strval($precioFrecuente), "categoria" => $categoria,
     "subcategoria" => $subCategoria, "inventario" => true, "resenas" => $resenas);
   }
 }

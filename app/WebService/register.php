@@ -15,8 +15,6 @@ while($res = mysql_fetch_array($qurU)){
 	$correoE = $bool;
 }
 
-print($correoE);
-
 $Nombrep = $_GET["nombre"];  
 $Nombre     = mysql_real_escape_string($Nombrep);
 
@@ -26,10 +24,10 @@ $Contrasena     = mysql_real_escape_string($Contrasenap);
 $result = array();
 
 if($correoE == 1){
-	$result[] = array("valid" => false);
+	$result[] = array("valid" => "false");
 }else{
 	$qur = mysql_query("insert into clientes (nombre,password,correo, esFrecuente) values('$Nombre','$Contrasena','$Correo',false);");
-	$result[] = array("valid" => $qur);
+	$result[] = array("valid" => strval($qur));
 }
 
 //call query

@@ -1,7 +1,7 @@
 <?php
 //connect
 ini_set('display_errors', 1);
-$conn = mysql_connect("127.0.0.1:3306", "root", "");
+$conn = mysql_connect("localhost", "root", "");
 mysql_select_db('mnemonic', $conn);
 
 $Name = $_GET["name"];
@@ -32,7 +32,7 @@ while($r = mysql_fetch_array($qur)){
   	$precioFrecuente = $precio - ($precio * $discount);
 
   	$result[] = array("id" => $id, "nombre" => $nombre, "descripcion" => $descripcion, "imagen" => $imagen,
-   "precio" => $precio, "precioFrecuente" => $precioFrecuente, "categoria" => $categoria,
+   "precio" => $precio, "precioOferta" => $precioFrecuente, "categoria" => $categoria,
     "subcategoria" => $subCategoria, "inventario" => true);
 
   	}else{
@@ -40,7 +40,7 @@ while($r = mysql_fetch_array($qur)){
   	$precioFrecuente = $precioOferta - ($precioOferta * $discount);
 
   	$result[] = array("id" => $id, "nombre" => $nombre, "descripcion" => $descripcion, "imagen" => $imagen,
-   "precio" => $precioOferta, "precioFrecuente" => $precioFrecuente, "categoria" => $categoria,
+   "precio" => $precioOferta, "precioOferta" => $precioFrecuente, "categoria" => $categoria,
     "subcategoria" => $subCategoria, "inventario" => true);
 
   	}

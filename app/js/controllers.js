@@ -2,31 +2,79 @@
 
 /* Controllers */
 var mnemonicApp = angular.module('mnemonicControllers', []);
-mnemonicApp.controller('OffertsListCtrl', function ($scope, $http, $rootScope, $location) {
+mnemonicApp.controller('OffertsListCtrl', function ($scope, $http, $rootScope, $location, $route) {
 
   $http.get("http://localhost:800/getOfertas.php")
   .success(function(response) {$scope.products = response;});
-  $scope.delete=function(offert){
-    $scope.products.splice(offert,1);
-    //ELIMINAR LA OFERTA Y NO EL PRODUCTO de la base
+
+  $scope.newOffer = 0;
+
+  $scope.delete=function(productid){
+    $http.get("http://localhost:800/eliminateOferta.php?id="+productid)
+      .success(function(response) {$scope.val = response[0].valid;
+                                      if($scope.val == true){
+                                      alert("Oferta eliminada!");
+                                      $route.reload();
+                                    }
+                                  });
+    
   };
-  $scope.modifyOffert=function(offert){
-    //hay que actualizar la base y hacer refresh a la pagina
-  };
+  $scope.modifyOffert=function(productId, price, offer){
+
+    var price_int = Number(price);
+    
+
+    if(offer < price_int){
+      $http.get("http://localhost:800/modifyOferta.php?id="+productId+"&precio=+"+offer)
+      .success(function(response) {$scope.val = response[0].valid;
+                                    if($scope.val == true){
+                                      alert("Oferta cambiada!");
+                                      $route.reload();
+                                    }
+                                  });
+    }
+    else{
+      alert("Esta poniendo su oferta mayor que el precio actual, se recomienda modificar el producto primero");
+    }
+  }
+
   $scope.loadView =function(productId){
     $location.path('/productDetails/'+productId);
   }
-  });
 
-mnemonicApp.controller('booksCtrl', function ($scope,$location,$http) {
+
+});
+
+mnemonicApp.controller('booksCtrl', function ($scope,$location,$http,$route) {
 
   $http.get("http://localhost:800/getCategorias.php?name=Libros")
   .success(function(response) {$scope.products = response;});
-  $scope.delete=function(book){
+  $scope.delete=function(productid){
+    $http.get("http://localhost:800/eliminateProduct.php?id="+productid)
+    .success(function(response) {$scope.val = response[0].valid;
+      if($scope.val == true){
+        alert("Producto eliminado");
+        $route.reload();
+      }
+    });
 
-  };
-  $scope.addOffert=function(book){
+  }
 
+  $scope.addOffert=function(productId, precio, offer){
+    var price_int = Number(precio);
+    
+    if(offer < price_int){
+      $http.get("http://localhost:800/createOferta.php?id="+productId+"&precio="+offer)
+      .success(function(response) {$scope.val = response[0].valid;
+                                    if($scope.val == true){
+                                      alert("Oferta Generada!");
+                                       $location.path('#/offerts');
+                                    }
+                                  });
+    }
+    else{
+      alert("Esta poniendo su oferta mayor que el precio actual, se recomienda modificar el producto primero");
+    }
   }
 
   $scope.loadView =function(productId){
@@ -45,11 +93,33 @@ mnemonicApp.controller('musicCtrl', function ($scope,$location,$http) {
 
   $http.get("http://localhost:800/getCategorias.php?name=Musica")
   .success(function(response) {$scope.products = response;});
-  $scope.delete=function(song){
 
-  };
-  $scope.addOffert=function(song){
+  $scope.delete=function(productid){
+    $http.get("http://localhost:800/eliminateProduct.php?id="+productid)
+    .success(function(response) {$scope.val = response[0].valid;
+      if($scope.val == true){
+        alert("Producto eliminado");
+        $route.reload();
+      }
+    });
 
+  }
+
+  $scope.addOffert=function(productId, precio, offer){
+    var price_int = Number(precio);
+    
+    if(offer < price_int){
+      $http.get("http://localhost:800/createOferta.php?id="+productId+"&precio="+offer)
+      .success(function(response) {$scope.val = response[0].valid;
+                                    if($scope.val == true){
+                                      alert("Oferta Generada!");
+                                       $location.path('#/offerts');
+                                    }
+                                  });
+    }
+    else{
+      alert("Esta poniendo su oferta mayor que el precio actual, se recomienda modificar el producto primero");
+    }
   }
 
   $scope.loadView =function(productId){
@@ -67,11 +137,32 @@ mnemonicApp.controller('comicsCtrl', function ($scope,$location,$http) {
 
   $http.get("http://localhost:800/getCategorias.php?name=Comics")
   .success(function(response) {$scope.products = response;});
-  $scope.delete=function(comic){
+  $scope.delete=function(productid){
+    $http.get("http://localhost:800/eliminateProduct.php?id="+productid)
+    .success(function(response) {$scope.val = response[0].valid;
+      if($scope.val == true){
+        alert("Producto eliminado");
+        $route.reload();
+      }
+    });
 
-  };
-  $scope.addOffert=function(commic){
+  }
 
+  $scope.addOffert=function(productId, precio, offer){
+    var price_int = Number(precio);
+    
+    if(offer < price_int){
+      $http.get("http://localhost:800/createOferta.php?id="+productId+"&precio="+offer)
+      .success(function(response) {$scope.val = response[0].valid;
+                                    if($scope.val == true){
+                                      alert("Oferta Generada!");
+                                       $location.path('#/offerts');
+                                    }
+                                  });
+    }
+    else{
+      alert("Esta poniendo su oferta mayor que el precio actual, se recomienda modificar el producto primero");
+    }
   }
 
   $scope.loadView =function(productId){
@@ -89,11 +180,32 @@ mnemonicApp.controller('comicsCtrl', function ($scope,$location,$http) {
 mnemonicApp.controller('severalArticlesCtrl', function ($scope,$location,$http) {
   $http.get("http://localhost:800/getCategorias.php?name=Varios")
   .success(function(response) {$scope.products = response;});
-  $scope.delete=function(article){
+  $scope.delete=function(productid){
+    $http.get("http://localhost:800/eliminateProduct.php?id="+productid)
+    .success(function(response) {$scope.val = response[0].valid;
+      if($scope.val == true){
+        alert("Producto eliminado");
+        $route.reload();
+      }
+    });
 
-  };
-  $scope.addOffert=function(article){
+  }
 
+  $scope.addOffert=function(productId, precio, offer){
+    var price_int = Number(precio);
+    
+    if(offer < price_int){
+      $http.get("http://localhost:800/createOferta.php?id="+productId+"&precio="+offer)
+      .success(function(response) {$scope.val = response[0].valid;
+                                    if($scope.val == true){
+                                      alert("Oferta Generada!");
+                                       $location.path('#/offerts');
+                                    }
+                                  });
+    }
+    else{
+      alert("Esta poniendo su oferta mayor que el precio actual, se recomienda modificar el producto primero");
+    }
   }
 
   $scope.loadView =function(productId){
@@ -118,11 +230,32 @@ mnemonicApp.controller('moviesCtrl', function ($scope,$location,$http) {
   $http.get("http://localhost:800/getCategorias.php?name=Peliculas")
   .success(function(response) {$scope.products = response;});
 
-  $scope.delete=function(movie){
+  $scope.delete=function(productid){
+    $http.get("http://localhost:800/eliminateProduct.php?id="+productid)
+    .success(function(response) {$scope.val = response[0].valid;
+      if($scope.val == true){
+        alert("Producto eliminado");
+        $route.reload();
+      }
+    });
 
-  };
-  $scope.addOffert=function(book){
+  }
 
+  $scope.addOffert=function(productId, precio, offer){
+    var price_int = Number(precio);
+    
+    if(offer < price_int){
+      $http.get("http://localhost:800/createOferta.php?id="+productId+"&precio="+offer)
+      .success(function(response) {$scope.val = response[0].valid;
+                                    if($scope.val == true){
+                                      alert("Oferta Generada!");
+                                       $location.path('#/offerts');
+                                    }
+                                  });
+    }
+    else{
+      alert("Esta poniendo su oferta mayor que el precio actual, se recomienda modificar el producto primero");
+    }
   }
   $scope.edit=function(productId){
     $location.path('/editProduct/'+productId);
@@ -172,24 +305,40 @@ mnemonicApp.controller('loginCtrl', function ($scope, $http,$rootScope,$location
     //       $rootScope.isAdmin=true;
     //     }else if (value.type=='false') {
     //       $rootScope.isLogged=false;
-    //     }else {
+    //     }else if (value.type == 'clientFrecuente'){
+    //       $rootScope.frecuente = true;   
     //       $rootScope.isLogged=true;
-    //     }
+    //     }else{
+    //          $rootScope.frecuente = false;
+    //          $rootScope.isLogged = true;
+    //        }
     //   }
     // );
+    $location.path('#/offerts');
   };
   $scope.logout=function(){
     $rootScope.isAdmin=false;
     $rootScope.isLogged=false;
+    $rootScope.frecuente = false;
+    $rootScope.email="";
   };
-  $scope.email="";
+  $rootScope.email="";
   $scope.password="";
 });
 
-mnemonicApp.controller('newLoginCtrl', function ($scope) {
+mnemonicApp.controller('newLoginCtrl', function ($scope,$rootScope,$http,$location) {
   $scope.addUser=function(){
-    window.alert('Usuario Registrado');
+    $http.get("http://localhost:800/register.php?correo="+$scope.email+"&nombre="+$scope.nombre+"&contrasena="+$scope.password)
+    .success(function(response) {$scope.val = response[0].valid;});
+    if($scope.val == "false"){
+      $scope.message = "Usuario ya registrado dentro del sistema";
+    }else{
+      $rootScope.email = $scope.email;
+      $rootScope.isLogged = true;
+      $location.path('#/offerts');
+    } 
   }
+  $scope.message ="";
   $scope.nombre="";
   $scope.email="";
   $scope.password="";
@@ -200,14 +349,22 @@ mnemonicApp.controller('addProductCtrl', function ($scope) {
     alert($scope.product.categoria)
   }
 });
-mnemonicApp.controller('specifyDiscountCtrl', function ($scope) {
-  $scope.modify=function(){
-    alert($scope.descuento)
+mnemonicApp.controller('specifyDiscountCtrl', function ($scope, $http, $location) {
+  $scope.modify=function(discount){
+    var disc = discount/100;
+    $http.get("http://localhost:800/changeDiscount.php?porcentaje="+disc)
+    .success(function(response) {$scope.val = response[0].valid;
+                                    if($scope.val == true){
+                                      alert("Descuento cambiado!");
+                                       $location.path('#/offerts');
+                                    }
+                                  }); 
   }
 });
 mnemonicApp.controller('detailsCtrl', function ($scope, $routeParams, $http) {
   $http.get("http://localhost:800/getProducto.php?id="+$routeParams.products)
-  .success(function(response) {$scope.productDetails = response[0];}); //Falta agregar las reseñas de cada producto
+  .success(function(response) {$scope.productDetails = response[0]});
+                                     
 });
 mnemonicApp.controller('editProductCtrl', function ($scope, $routeParams, $http) {
   $http.get("http://localhost:800/getProducto.php?id="+$routeParams.products)

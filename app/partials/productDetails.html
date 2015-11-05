@@ -13,10 +13,10 @@
           Subcategoria: {{productDetails.subcategoria}}
       </p>
       <p>
-        Precio Normal: {{productDetails.precio}}
+        Precio Actual/Oferta: {{productDetails.precio}}
       </p>
       <p>
-        Precio Descuento: {{productDetails.precioOferta}}
+        Precio ClienteFrecuente: {{productDetails.precioOferta}}
       </p>
 
       <form method="post" ng-hide="isAdmin" action="https://www.paypal.com/cgi-bin/webscr">
@@ -35,6 +35,13 @@
         <input type="hidden" name="lc" value="GB">
         <input type="image" src="http://www.paypalobjects.com/en_GB/i/btn/x-click-but22.gif" border="0" name="submit" width="87" height="23" alt="Make payments with PayPal - it's fast, free and secure.">
       </form>
+      <p></p>
+      <p>RESEÑAS</p>
+      <div ng-repeat="res in productDetails.resenas ">
+          <p> Nombre del cliente: {{res.nomb}}  </p>
+          <p> Reseña: {{res.descrip}} </p>
+      </div>
+
     </div>
   </div>
   <p></p>

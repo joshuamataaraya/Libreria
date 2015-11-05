@@ -22,7 +22,7 @@ $Descripcionp = $_GET["descripcion"];  //utiliza un valor decimal
 $Descripcion    = mysql_real_escape_string($Descripcionp);
 
 //call query
-$qur = mysql_query("insert into reseñas (idProducto,idCliente,descripcion) values('$Producto','$idClient','$Descripcion')");
+$qur = mysql_query("insert into resenas (idProducto,idCliente,descripcion) values('$Producto','$idClient','$Descripcion')");
 
 $result[] = array("valid" => $qur);
 
