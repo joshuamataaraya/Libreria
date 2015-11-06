@@ -34,8 +34,6 @@ io.on("connection", function(socket) {
     })
 });
 
-
-
 app.use(multer({ dest: './app/img/Products',
     rename: function (fieldname, filename) {
         return filename;

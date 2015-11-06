@@ -3,34 +3,30 @@
   <div class="col-md-8">
     <p>
         Nombre:
-        <input type="text"  ng-show="isAdmin" name="name" ng-model="product.nombre">
+        <input type="text"  ng-show="isAdmin" name="name" ng-model="name">
     </p>
     <p>
         Descripcion:
-        <input type="text"  ng-show="isAdmin" name="name" ng-model="product.descripcion">
+        <input type="text"  ng-show="isAdmin" name="name" ng-model="descrip">
     </p>
     <p>
         Categoria:
-        <select name="singleSelect" ng-model="product.categoria">
+        <select name="singleSelect" ng-model="cat">
           <option value="Libros">Libros</option>
           <option value="Musica">Musica</option>
           <option value="Comics">Comics</option>
-          <option value="Articulos Varios">Articulos Varios</option>
+          <option value="Varios">Articulos Varios</option>
           <option value="Peliculas">Peliculas</option>
         </select>
 
     </p>
     <p>
         Subcategoria:
-        <input type="text"  ng-show="isAdmin" name="name" ng-model="product.subcategoria">
+        <input type="text"  ng-show="isAdmin" name="name" ng-model="subcat">
     </p>
     <p>
       Precio Normal:
-      <input type="text"  ng-show="isAdmin" name="name" ng-model="product.precio">
-    </p>
-    <p>
-      Precio Descuento:
-      <input type="text"  ng-show="isAdmin" name="name" ng-model="product.precioOferta">
+      <input type="text"  ng-show="isAdmin" name="name" ng-model="price">
     </p>
     </div>
      <div class="col-md-1"></div>
@@ -40,10 +36,11 @@
          action    =  "/"
          method    =  "post"
       >
-      <input type="file" name="userPhoto" />
-      <input type="submit" value="Subir nueva imagen" name="submit">
+      <p> Suba un archivo de imagen </p>
+      <input type="file" name="userPhoto" id="abc"  ng-model = "val" value="123" class="btn btn-default btn-lg"/>
+      <p>   </p>
+      <input type="submit" value="Agregar producto" ng-click="addProduct(name,descrip,price,cat,subcat)" name="submit" class="btn btn-default btn-lg">
       </form>
-      <button type="button" ng-show="isAdmin" class="btn btn-default btn-lg" name="button" ng-click="addProduct()">Agregar</button>
   </div>
 </div>
 <p></p>

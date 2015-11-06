@@ -18,6 +18,10 @@ mnemonicApp.config(['$routeProvider',
         templateUrl: 'app/partials/login.html',
         controller: 'loginCtrl'
       }).
+      when('/resenas', {
+        templateUrl: 'app/partials/resenas.html',
+        controller: 'resenaCtrl'
+      }).
       when('/logout', {
         controller: 'logoutCtrl'
       }).

@@ -6,7 +6,7 @@ mnemonicApp.controller('OffertsListCtrl', function ($scope, $http, $rootScope, $
 
   $http.get("http://localhost:800/getOfertas.php")
   .success(function(response) {$scope.products = response;});
-
+ 
   $scope.newOffer = 0;
 
   $scope.delete=function(productid){
@@ -314,15 +314,16 @@ mnemonicApp.controller('loginCtrl', function ($scope, $http,$rootScope,$location
     //        }
     //   }
     // );
+    $rootScope.emailV=$scope.email;
     $location.path('#/offerts');
   };
   $scope.logout=function(){
     $rootScope.isAdmin=false;
     $rootScope.isLogged=false;
     $rootScope.frecuente = false;
-    $rootScope.email="";
+    $rootScope.emailV="";
   };
-  $rootScope.email="";
+  $scope.email = "";
   $scope.password="";
 });
 
@@ -343,12 +344,25 @@ mnemonicApp.controller('newLoginCtrl', function ($scope,$rootScope,$http,$locati
   $scope.email="";
   $scope.password="";
 });
-mnemonicApp.controller('addProductCtrl', function ($scope) {
+mnemonicApp.controller('addProductCtrl', function ($scope, $http, $location) {
   //en $scope.product esta el producto para guardar en la base
-  $scope.addProduct=function(){
-    alert($scope.product.categoria)
+  $scope.addProduct=function(nombre,descripcion,precio,categoria,subcategoria){
+    var fileVal=document.getElementById("abc");
+    var res = fileVal.value.slice(12);
+    var finalstr = "app/img/Products/" + res; 
+
+    alert(finalstr);
+
+    $http.get("http://localhost:800/createProduct.php?nombre="+nombre+"&descripcion="+descripcion+"&imagen="+finalstr+"&precio="+precio+"&categoria="+categoria+"&subcategoria="+subcategoria)
+    .success(function(response) {$scope.val = response[0].valid;
+                                    if($scope.val == true){
+                                      alert("Producto agregado!");
+                                       $location.path('#/offerts');
+                                    }
+                                  }); 
   }
 });
+
 mnemonicApp.controller('specifyDiscountCtrl', function ($scope, $http, $location) {
   $scope.modify=function(discount){
     var disc = discount/100;
@@ -364,15 +378,54 @@ mnemonicApp.controller('specifyDiscountCtrl', function ($scope, $http, $location
 mnemonicApp.controller('detailsCtrl', function ($scope, $routeParams, $http) {
   $http.get("http://localhost:800/getProducto.php?id="+$routeParams.products)
   .success(function(response) {$scope.productDetails = response[0]});
+  
                                      
 });
-mnemonicApp.controller('editProductCtrl', function ($scope, $routeParams, $http) {
-  $http.get("http://localhost:800/getProducto.php?id="+$routeParams.products)
-  .success(function(response) {$scope.productDetails = response[0];});
-  $scope.categorias=['Libros','Musica','Comics','Articulos Varios', 'Peliculas'];
-  $scope.edit=function(){
-    //hay que editar el producto con id guardado en: $routeParams.products
-    //los detalles del mismo producto quedan guardados en: $scope.productDetails.DETALLE
+mnemonicApp.controller('resenaCtrl', function ($scope, $routeParams, $http, $rootScope, $route) {
+  $http.get("http://localhost:800/getProductoBought.php?cliente="+$rootScope.emailV)
+  .success(function(response) {$scope.products = response});
+
+  $scope.addResena= function(productid, resena){
+    $http.get("http://localhost:800/setResena.php?cliente="+$rootScope.emailV+"&producto="+productid+"&descripcion="+resena)
+    .success(function(response) {$scope.val = response[0].valid;
+                                    if($scope.val == true){
+                                       alert("Reseña Generada!");
+                                       $route.reload();
+                                    }
+                                  });
 
   }
+  
+                                     
+});
+mnemonicApp.controller('editProductCtrl', function ($scope, $routeParams, $http, $location) {
+  $http.get("http://localhost:800/getProducto.php?id="+$routeParams.products)
+  .success(function(response) {$scope.productDetails = response[0]});
+
+  $scope.edit=function(){
+    var fileVal=document.getElementById("abc");
+    var finalstr;
+    if(fileVal.value == ""){
+      finalstr = "";
+    }else{
+      var res = fileVal.value.slice(12);
+      finalstr = "app/img/Products/" + res;
+    } 
+    $http.get("http://localhost:800/modifyProduct.php?id="+$scope.productDetails.id+"&nombre="+$scope.name+"&descripcion="+$scope.descrip+"&imagen="+finalstr+"&precio="+$scope.price+"&categoria="+$scope.cat+"&subcategoria="+$scope.subcat)
+    .success(function(response) {$scope.val = response[0].valid;
+                                    if($scope.val == true){
+                                      alert("Producto agregado!");
+                                       $location.path('#/offerts');
+                                    }else{
+                                      alert("error?");
+                                    }
+                                  }); 
+  }
+  $scope.name = "";
+  $scope.descrip = "";
+  $scope.price = "";
+  $scope.cat = "";
+  $scope.subcat = "";
+
+  $scope.categorias=['Libros','Musica','Comics','Articulos Varios', 'Peliculas'];
 });
