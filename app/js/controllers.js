@@ -48,7 +48,6 @@ mnemonicApp.controller('OffertsListCtrl', function ($scope, $http, $rootScope, $
   }
 
   $scope.storeProduct=function(id){
-    alert($cookies.get('login'));
 
     socket.emit('varcompra',id);
   }
@@ -56,7 +55,7 @@ mnemonicApp.controller('OffertsListCtrl', function ($scope, $http, $rootScope, $
 
 });
 
-mnemonicApp.controller('booksCtrl', function ($scope,$location,$http,$route) {
+mnemonicApp.controller('booksCtrl', function ($scope,$location,$http,$route,$rootScope) {
 
   $http.get("http://localhost:800/getCategorias.php?name=Libros")
   .success(function(response) {$scope.products = response;});
@@ -101,7 +100,6 @@ mnemonicApp.controller('booksCtrl', function ($scope,$location,$http,$route) {
     $location.path('/editProduct/'+productId);
   }
   $scope.storeProduct=function(id){
-    alert("hello");
     socket.emit('varcompra',id);
   }
 
@@ -110,7 +108,7 @@ mnemonicApp.controller('booksCtrl', function ($scope,$location,$http,$route) {
   });
 
 
-mnemonicApp.controller('musicCtrl', function ($scope,$location,$http) {
+mnemonicApp.controller('musicCtrl', function ($scope,$location,$http, $rootScope) {
 
   $http.get("http://localhost:800/getCategorias.php?name=Musica")
   .success(function(response) {$scope.products = response;});
@@ -156,7 +154,6 @@ mnemonicApp.controller('musicCtrl', function ($scope,$location,$http) {
     $location.path('/editProduct/'+productId);
   }
   $scope.storeProduct=function(id){
-    alert("hello");
     socket.emit('varcompra',id);
   }
 
@@ -164,7 +161,7 @@ mnemonicApp.controller('musicCtrl', function ($scope,$location,$http) {
   });
 
 
-mnemonicApp.controller('comicsCtrl', function ($scope,$location,$http) {
+mnemonicApp.controller('comicsCtrl', function ($scope,$location,$http,$rootScope) {
 
   $http.get("http://localhost:800/getCategorias.php?name=Comics")
   .success(function(response) {$scope.products = response;});
@@ -209,7 +206,6 @@ mnemonicApp.controller('comicsCtrl', function ($scope,$location,$http) {
     $location.path('/editProduct/'+productId);
   }
   $scope.storeProduct=function(id){
-    alert("hello");
     socket.emit('varcompra',id);
   }
 
@@ -218,7 +214,7 @@ mnemonicApp.controller('comicsCtrl', function ($scope,$location,$http) {
   });
 
 
-mnemonicApp.controller('severalArticlesCtrl', function ($scope,$location,$http) {
+mnemonicApp.controller('severalArticlesCtrl', function ($scope,$location,$http,$rootScope) {
   $http.get("http://localhost:800/getCategorias.php?name=Varios")
   .success(function(response) {$scope.products = response;});
 
@@ -263,7 +259,6 @@ mnemonicApp.controller('severalArticlesCtrl', function ($scope,$location,$http) 
     $location.path('/editProduct/'+productId);
   }
   $scope.storeProduct=function(id){
-    alert("hello");
     socket.emit('varcompra',id);
   }
 
@@ -278,7 +273,7 @@ mnemonicApp.controller('severalArticlesCtrl', function ($scope,$location,$http) 
   });
 
 
-mnemonicApp.controller('moviesCtrl', function ($scope,$location,$http) {
+mnemonicApp.controller('moviesCtrl', function ($scope,$location,$http,$rootScope) {
   $http.get("http://localhost:800/getCategorias.php?name=Peliculas")
   .success(function(response) {$scope.products = response;});
 
@@ -322,7 +317,6 @@ mnemonicApp.controller('moviesCtrl', function ($scope,$location,$http) {
     $location.path('/productDetails/'+productId);
   }
   $scope.storeProduct=function(id){
-    alert("hello");
     socket.emit('varcompra',id);
   }
 
@@ -356,7 +350,6 @@ mnemonicApp.controller('shoppingCartCtrl', function ($scope,$location) {
 });
 mnemonicApp.controller('loginCtrl', function ($scope, $http,$rootScope,$location,$cookies) {
   $scope.login=function(){
-    $cookies.put('login','User');
     $rootScope.isLogged=true;
      var url = "http://localhost:800/userType.php?email="+ $scope.email+"&pass="+$scope.password;
      $http.get(url)
@@ -365,6 +358,7 @@ mnemonicApp.controller('loginCtrl', function ($scope, $http,$rootScope,$location
            $rootScope.isAdmin=true;
            $rootScope.emailV=$scope.email;
            $location.path('#/offerts');
+           $cookies.put('login','Admin');
          }else if ($scope.valid=='false') {
            $rootScope.isLogged=false;
          }else if ($scope.valid == 'clientFrecuente'){
@@ -372,11 +366,13 @@ mnemonicApp.controller('loginCtrl', function ($scope, $http,$rootScope,$location
            $rootScope.emailV=$scope.email;
            $cookies.put('isFrecuente','true');
            $location.path('#/offerts');
+           $cookies.put('login',$scope.email);
          }else{
               $rootScope.frecuente = false;
               $rootScope.isLogged = true;
               $rootScope.emailV=$scope.email;
               $location.path('#/offerts');
+              $cookies.put('login',$scope.email);
             }
         });
   };
@@ -414,8 +410,6 @@ mnemonicApp.controller('addProductCtrl', function ($scope, $http, $location) {
     var fileVal=document.getElementById("abc");
     var res = fileVal.value.slice(12);
     var finalstr = "app/img/Products/" + res;
-
-    alert(finalstr);
 
     $http.get("http://localhost:800/createProduct.php?nombre="+nombre+"&descripcion="+descripcion+"&imagen="+finalstr+"&precio="+precio+"&categoria="+categoria+"&subcategoria="+subcategoria)
     .success(function(response) {$scope.val = response[0].valid;
@@ -493,9 +487,22 @@ mnemonicApp.controller('editProductCtrl', function ($scope, $routeParams, $http,
   $scope.categorias=['Libros','Musica','Comics','Articulos Varios', 'Peliculas'];
 });
 
-mnemonicApp.controller('compraCtrl', function ($scope, $routeParams, $http) {
+mnemonicApp.controller('compraCtrl', function ($scope, $routeParams, $http, $rootScope,$cookies) {
   $scope.token='_0tAa8tfdXT2CDwESYRbKK_pmWI9baqNZY3ptdip2uKqwh3xYFgn-FtM0ea';
+  socket.emit('retcompra',"");
+  socket.on('compras', function(compra){
+    $rootScope.compra = compra;
+    var n = $rootScope.compra.length;
+    var compra = $rootScope.compra.substring(0,n-1);
 
+    var email = $cookies.get("login");
+    alert(email);
+
+    $http.get("http://localhost:800/createPurchase.php?productos="+compra+"&cliente="+email)
+    .success(function(response) {$scope.productDetails = response[0]});
+   });
+
+  ///////////cookie.get("login")????
 
   // $http.post('https://www.sandbox.paypal.com/cgi-bin/webscr',
   //     {
