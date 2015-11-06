@@ -6,7 +6,11 @@ var mnemonicApp = angular.module('mnemonicApp', [
 
   'mnemonicControllers'
 ]);
-
+mnemonicApp.config(['$httpProvider', function($httpProvider) {
+        $httpProvider.defaults.useXDomain = true;
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    }
+]);
 mnemonicApp.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
@@ -59,6 +63,17 @@ mnemonicApp.config(['$routeProvider',
         },
         templateUrl: 'app/partials/shoppingCart.html',
         controller: 'shoppingCartCtrl'
+      }).
+      when('/compra', {
+        // resolve:{
+        //   "check":function($location,$rootScope){
+        //     if(!$rootScope.isLogged){
+        //       $location.path('/login');
+        //     }
+        //   }
+        // },
+        templateUrl: 'app/partials/compra.html',
+        controller: 'compraCtrl'
       }).
       when('/addProduct', {
         resolve:{

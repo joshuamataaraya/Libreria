@@ -11,10 +11,10 @@
       <p>
         Precio Cliente Frecuente: {{product.precioOferta}}
       </p>
-      <form method="post" ng-hide="isAdmin" action="https://www.paypal.com/cgi-bin/webscr">
+      <form method="post" ng-hide="isAdmin" action="https://www.sandbox.paypal.com/cgi-bin/webscr">
         <input type="hidden" name="cmd" value="_cart">
         <input type="hidden" name="add" value="1">
-        <input type="hidden" name="business" value="joshuamataa@gmail.com">
+        <input type="hidden" name="business" value="joshuamataa-facilitator@gmail.com">
         <input type="hidden" name="item_name" value="{{product.nombre}}">
         <input type="hidden" name="item_number" value="123">
         <input type="hidden" name="amount" value="{{product.precioOferta}}">
@@ -22,10 +22,9 @@
         <input type="hidden" name="shipping2" value="0.00">
         <input type="hidden" name="handling" value="2.00 ">
         <input type="hidden" name="currency_code" value="USD">
-        <input type="hidden" name="return" value="http://www.yoursite.co.uk/thankyou.htm">
         <input type="hidden" name="undefined_quantity" value="1">
         <input type="hidden" name="lc" value="GB">
-        <input type="image" src="http://www.paypalobjects.com/en_GB/i/btn/x-click-but22.gif" border="0" name="submit" width="87" height="23" alt="Make payments with PayPal - it's fast, free and secure.">
+        <input type="image" src="http://www.paypalobjects.com/en_GB/i/btn/x-click-but22.gif" border="0" name="submit" ng-click="storeProduct(product.id)" width="87" height="23" alt="Make payments with PayPal - it's fast, free and secure.">
       </form>
       <p>
         <button type="button" ng-show="isAdmin" class="btn btn-default btn-lg" name="button" ng-click="addOffert(product.id, product.precio, newOffer)">Agregar oferta</button>
