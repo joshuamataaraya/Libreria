@@ -1,0 +1,22 @@
+<h1>Reseñas/Compartir</h1>
+<div ng-repeat="product in products">
+  <div class="row">
+    <img ng-src={{product.imagen}} ng-click="loadView(product.id)" class="thumb col-md-4"  alt="Bird"></td>
+    <div class="col-md-8">
+      <h3>{{product.nombre}}</h3>
+      <p>
+        Nombre del producto {{product.nombre}}
+      </p>
+      <p>
+        <textarea ng-model = "val" rows ='4' cols='50'></textarea>
+      </p>
+      <p>
+        <button type="button" class="btn btn-default btn-lg" name="button" ng-click="addResena(product.id, val)">Dejar reseña</button>
+      </p>
+    </div>
+  </div>
+</div>
+
+
+
+   <!-- Your share button code -->

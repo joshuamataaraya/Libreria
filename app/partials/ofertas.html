@@ -1,3 +1,4 @@
+
 <h1>Ofertas</h1>
 <div ng-repeat="product in products">
   <div class="row">
@@ -8,7 +9,7 @@
         Precio Normal: {{product.precio}}
       </p>
       <p>
-        Precio Descuento: {{product.precioOferta}}
+        Precio Descuento: {{product.precioOferta}}     
       </p>
       <form method="post" ng-hide="isAdmin" action="https://www.sandbox.paypal.com/cgi-bin/webscr">
         <input type="hidden" name="cmd" value="_cart">
@@ -23,6 +24,7 @@
         <input type="hidden" name="currency_code" value="USD">
         <input type="hidden" name="undefined_quantity" value="1">
         <input type="hidden" name="lc" value="GB">
+
         <input type="image" src="http://www.paypalobjects.com/en_GB/i/btn/x-click-but22.gif" border="0" ng-click="storeProduct(product.id)" name="submit" width="87" height="23" alt="Make payments with PayPal - it's fast, free and secure.">
       </form>
       <p>
@@ -32,5 +34,4 @@
       <button type="button" ng-show="isAdmin" class="btn btn-default btn-lg" name="button" ng-click="delete(product.id)">Eliminar Oferta</button>
     </div>
   </div>
-  <p></p>
 </div>

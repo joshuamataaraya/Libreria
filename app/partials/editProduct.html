@@ -2,29 +2,27 @@
 <div class="row">
   <img ng-src={{productDetails.imagen}}  class="thumb col-md-4"  alt="Bird"></td>
   <div class="col-md-8">
-
+    <p>
+        Nombre:
+        <input type="text"  ng-show="isAdmin" name="name" ng-model="name">
+    </p>
     <p>
         Descripcion:
-        <input type="text"  ng-show="isAdmin" name="name" ng-model="productDetails.descripcion">
+        <input type="text"  ng-show="isAdmin" name="name" ng-model="descrip">
     </p>
     <p>
         Categoria:
-        <input type="text"  ng-show="isAdmin" name="name" ng-model="productDetails.categoria">
+        <input type="text"  ng-show="isAdmin" name="name" ng-model="cat">
 
     </p>
     <p>
         Subcategoria:
-        <input type="text"  ng-show="isAdmin" name="name" ng-model="productDetails.subcategoria">
+        <input type="text"  ng-show="isAdmin" name="name" ng-model="subcat">
     </p>
     <p>
       Precio Normal:
-      <input type="text"  ng-show="isAdmin" name="name" ng-model="productDetails.precio">
+      <input type="text"  ng-show="isAdmin" name="name" ng-model="price">
     </p>
-    <p>
-      Precio Descuento:
-      <input type="text"  ng-show="isAdmin" name="name" ng-model="productDetails.precioOferta">
-    </p>
-    <button type="button" ng-show="isAdmin" class="btn btn-default btn-lg" name="button" ng-click="edit()">Modificar Producto</button>
     </div>
      <div class="col-md-1"></div>
     </div>
@@ -33,8 +31,10 @@
          action    =  "/"
          method    =  "post"
       >
-      <input type="file" name="userPhoto" />
-      <input type="submit" value="Subir nueva imagen" name="submit">
+      <p> Suba un archivo de imagen si lo desea </p>
+      <input type="file" name="userPhoto" id="abc"  ng-model = "val" value="123" class="btn btn-default btn-lg"/>
+      <p>   </p>
+      <input type="submit" value="Agregar producto" ng-click="edit()" name="submit" class="btn btn-default btn-lg">
       </form>
   </div>
 </div>

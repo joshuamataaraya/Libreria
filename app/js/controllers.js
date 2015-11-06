@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 /* Controllers */
 var mnemonicApp = angular.module('mnemonicControllers', []);
@@ -6,6 +6,14 @@ mnemonicApp.controller('OffertsListCtrl', function ($scope, $http, $rootScope, $
 
   $http.get("http://localhost:800/getOfertas.php")
   .success(function(response) {$scope.products = response;});
+
+  socket.emit('retcompra');
+  socket.on('compras', function(compra, isLogged, email){
+    $rootScope.compra = compra;
+    $rootScope.isLogged = isLogged;
+    $rootScope.email = email;
+    alert($rootScope.compra);
+   });
 
   $scope.newOffer = 0;
 
@@ -43,8 +51,9 @@ mnemonicApp.controller('OffertsListCtrl', function ($scope, $http, $rootScope, $
   }
 
   $scope.storeProduct=function(id){
-  //meter en la variable
     alert($cookies.get('login'));
+
+    socket.emit('varcompra',id);
   }
 
   // Setting a cookie
@@ -305,25 +314,27 @@ mnemonicApp.controller('loginCtrl', function ($scope, $http,$rootScope,$location
   $scope.login=function(){
     $cookies.put('login','User');
     $rootScope.isLogged=true;
-    $rootScope.isAdmin=true;
-    // var url = "http://localhost:800/userType.php?email="+ $scope.email+"&pass="+$scope.password;
-    // $http.get(url)
-    // .success(function(response) {$scope.valid = response;});
-    // angular.forEach($scope.valid, function(value, key) {
-    //     if(value.type=='admin'){
-    //       $rootScope.isAdmin=true;
-    //     }else if (value.type=='false') {
-    //       $rootScope.isLogged=false;
-    //     }else if (value.type == 'clientFrecuente'){
-    //       $rootScope.frecuente = true;
-    //       $rootScope.isLogged=true;
-    //     }else{
-    //          $rootScope.frecuente = false;
-    //          $rootScope.isLogged = true;
-    //        }
-    //   }
-    // );
-    $location.path('#/offerts');
+     var url = "http://localhost:800/userType.php?email="+ $scope.email+"&pass="+$scope.password;
+     $http.get(url)
+     .success(function(response) {$scope.valid = response[0].type;
+         if($scope.valid=='admin'){
+           $rootScope.isAdmin=true;
+           $rootScope.emailV=$scope.email;
+           $location.path('#/offerts');
+         }else if ($scope.valid=='false') {
+           $rootScope.isLogged=false;
+         }else if ($scope.valid == 'clientFrecuente'){
+           $rootScope.frecuente = true;
+           $rootScope.isLogged=true;
+           $rootScope.emailV=$scope.email;
+           $location.path('#/offerts');
+         }else{
+              $rootScope.frecuente = false;
+              $rootScope.isLogged = true;
+              $rootScope.emailV=$scope.email;
+              $location.path('#/offerts');
+            }
+        });
   };
   $scope.logout=function(){
     $rootScope.isAdmin=false;
@@ -332,14 +343,14 @@ mnemonicApp.controller('loginCtrl', function ($scope, $http,$rootScope,$location
     $rootScope.email="";
     $cookies.put('login','');
   };
-  $rootScope.email="";
+  $scope.email = "";
   $scope.password="";
 });
 
 mnemonicApp.controller('newLoginCtrl', function ($scope,$rootScope,$http,$location) {
   $scope.addUser=function(){
     $http.get("http://localhost:800/register.php?correo="+$scope.email+"&nombre="+$scope.nombre+"&contrasena="+$scope.password)
-    .success(function(response) {$scope.val = response[0].valid;});
+    .success(function(response) {$scope.val = response[0].valid});
     if($scope.val == "false"){
       $scope.message = "Usuario ya registrado dentro del sistema";
     }else{
@@ -353,12 +364,25 @@ mnemonicApp.controller('newLoginCtrl', function ($scope,$rootScope,$http,$locati
   $scope.email="";
   $scope.password="";
 });
-mnemonicApp.controller('addProductCtrl', function ($scope) {
+mnemonicApp.controller('addProductCtrl', function ($scope, $http, $location) {
   //en $scope.product esta el producto para guardar en la base
-  $scope.addProduct=function(){
-    alert($scope.product.categoria)
+  $scope.addProduct=function(nombre,descripcion,precio,categoria,subcategoria){
+    var fileVal=document.getElementById("abc");
+    var res = fileVal.value.slice(12);
+    var finalstr = "app/img/Products/" + res;
+
+    alert(finalstr);
+
+    $http.get("http://localhost:800/createProduct.php?nombre="+nombre+"&descripcion="+descripcion+"&imagen="+finalstr+"&precio="+precio+"&categoria="+categoria+"&subcategoria="+subcategoria)
+    .success(function(response) {$scope.val = response[0].valid;
+                                    if($scope.val == true){
+                                      alert("Producto agregado!");
+                                       $location.path('#/offerts');
+                                    }
+                                  });
   }
 });
+
 mnemonicApp.controller('specifyDiscountCtrl', function ($scope, $http, $location) {
   $scope.modify=function(discount){
     var disc = discount/100;
@@ -376,17 +400,56 @@ mnemonicApp.controller('detailsCtrl', function ($scope, $routeParams, $http) {
   .success(function(response) {$scope.productDetails = response[0]});
 
 });
-mnemonicApp.controller('editProductCtrl', function ($scope, $routeParams, $http) {
-  $http.get("http://localhost:800/getProducto.php?id="+$routeParams.products)
-  .success(function(response) {$scope.productDetails = response[0];});
-  $scope.categorias=['Libros','Musica','Comics','Articulos Varios', 'Peliculas'];
-  $scope.edit=function(){
-    //hay que editar el producto con id guardado en: $routeParams.products
-    //los detalles del mismo producto quedan guardados en: $scope.productDetails.DETALLE
+mnemonicApp.controller('resenaCtrl', function ($scope, $routeParams, $http, $rootScope, $route) {
+  $http.get("http://localhost:800/getProductoBought.php?cliente="+$rootScope.emailV)
+  .success(function(response) {$scope.products = response});
+
+  $scope.addResena= function(productid, resena){
+    $http.get("http://localhost:800/setResena.php?cliente="+$rootScope.emailV+"&producto="+productid+"&descripcion="+resena)
+    .success(function(response) {$scope.val = response[0].valid;
+                                    if($scope.val == true){
+                                       alert("Reseña Generada!");
+                                       $route.reload();
+                                    }
+                                  });
 
   }
+
+
 });
-mnemonicApp.controller('compraCtrl', function ($scope, $routeParams, $http  ) {
+mnemonicApp.controller('editProductCtrl', function ($scope, $routeParams, $http, $location) {
+  $http.get("http://localhost:800/getProducto.php?id="+$routeParams.products)
+  .success(function(response) {$scope.productDetails = response[0]});
+
+  $scope.edit=function(){
+    var fileVal=document.getElementById("abc");
+    var finalstr;
+    if(fileVal.value == ""){
+      finalstr = "";
+    }else{
+      var res = fileVal.value.slice(12);
+      finalstr = "app/img/Products/" + res;
+    }
+    $http.get("http://localhost:800/modifyProduct.php?id="+$scope.productDetails.id+"&nombre="+$scope.name+"&descripcion="+$scope.descrip+"&imagen="+finalstr+"&precio="+$scope.price+"&categoria="+$scope.cat+"&subcategoria="+$scope.subcat)
+    .success(function(response) {$scope.val = response[0].valid;
+                                    if($scope.val == true){
+                                      alert("Producto agregado!");
+                                       $location.path('#/offerts');
+                                    }else{
+                                      alert("error?");
+                                    }
+                                  });
+  }
+  $scope.name = "";
+  $scope.descrip = "";
+  $scope.price = "";
+  $scope.cat = "";
+  $scope.subcat = "";
+
+  $scope.categorias=['Libros','Musica','Comics','Articulos Varios', 'Peliculas'];
+});
+
+mnemonicApp.controller('compraCtrl', function ($scope, $routeParams, $http) {
   $scope.token='_0tAa8tfdXT2CDwESYRbKK_pmWI9baqNZY3ptdip2uKqwh3xYFgn-FtM0ea';
 
 

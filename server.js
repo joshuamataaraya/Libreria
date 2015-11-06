@@ -1,11 +1,13 @@
 var express         =       require("express");
 var multer          =       require('multer');
 var app             =       express();
-var server          =   app.listen(8000);
+var server          =   app.listen(3000);
 var io              =       require('socket.io').listen(server)
 var nodemailer = require('nodemailer');
 var upload      =   multer({ dest: './app/img/Products'});
-
+var compra ="";
+var islogged = "";
+var email = "";
 
 var transporter = nodemailer.createTransport({
     service: 'Gmail',
@@ -32,10 +34,19 @@ io.on("connection", function(socket) {
             console.log('Message sent: ' + info.response);
 
         });
-    })
+    });
+    socket.on('varcompra', function(product, pIslogged, pEmail){
+        compra = compra + product +",";
+        islogged = pIslogged;
+        email = pEmail; 
+        console.log(compra);  
+    });
+    socket.on('retcompra', function(){
+        compra = compra - ",";
+        console.log(compra);
+        io.to(socket.id).emit('compras', compra, islogged,email);  
+    });
 });
-
-
 
 app.use(multer({ dest: './app/img/Products',
     rename: function (fieldname, filename) {
