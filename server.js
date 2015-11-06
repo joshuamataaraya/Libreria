@@ -35,16 +35,14 @@ io.on("connection", function(socket) {
 
         });
     });
-    socket.on('varcompra', function(product, pIslogged, pEmail){
+    socket.on('varcompra', function(product){
         compra = compra + product +",";
-        islogged = pIslogged;
-        email = pEmail; 
-        console.log(compra);  
+        console.log(compra);    
     });
     socket.on('retcompra', function(){
-        compra = compra - ",";
+        compra = compra;
         console.log(compra);
-        io.to(socket.id).emit('compras', compra, islogged,email);  
+        io.to(socket.id).emit('compras', compra);  
     });
 });
 

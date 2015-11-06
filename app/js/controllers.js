@@ -7,12 +7,9 @@ mnemonicApp.controller('OffertsListCtrl', function ($scope, $http, $rootScope, $
   $http.get("http://localhost:800/getOfertas.php")
   .success(function(response) {$scope.products = response;});
 
-  socket.emit('retcompra');
-  socket.on('compras', function(compra, isLogged, email){
+  socket.emit('retcompra',"");
+  socket.on('compras', function(compra){
     $rootScope.compra = compra;
-    $rootScope.isLogged = isLogged;
-    $rootScope.email = email;
-    alert($rootScope.compra);
    });
 
   $scope.newOffer = 0;
@@ -66,6 +63,12 @@ mnemonicApp.controller('booksCtrl', function ($scope,$location,$http,$route) {
 
   $http.get("http://localhost:800/getCategorias.php?name=Libros")
   .success(function(response) {$scope.products = response;});
+
+  socket.emit('retcompra',"");
+  socket.on('compras', function(compra){
+    $rootScope.compra = compra;
+   });
+
   $scope.delete=function(productid){
     $http.get("http://localhost:800/eliminateProduct.php?id="+productid)
     .success(function(response) {$scope.val = response[0].valid;
@@ -99,6 +102,10 @@ mnemonicApp.controller('booksCtrl', function ($scope,$location,$http,$route) {
   }
   $scope.edit=function(productId){
     $location.path('/editProduct/'+productId);
+  }
+  $scope.storeProduct=function(id){
+    alert("hello");
+    socket.emit('varcompra',id);
   }
 
   $scope.categoryName = "Libros";
@@ -111,6 +118,12 @@ mnemonicApp.controller('musicCtrl', function ($scope,$location,$http) {
   $http.get("http://localhost:800/getCategorias.php?name=Musica")
   .success(function(response) {$scope.products = response;});
 
+  socket.emit('retcompra',"");
+  socket.on('compras', function(compra){
+    $rootScope.compra = compra;
+   });
+
+
   $scope.delete=function(productid){
     $http.get("http://localhost:800/eliminateProduct.php?id="+productid)
     .success(function(response) {$scope.val = response[0].valid;
@@ -144,6 +157,10 @@ mnemonicApp.controller('musicCtrl', function ($scope,$location,$http) {
   }
   $scope.edit=function(productId){
     $location.path('/editProduct/'+productId);
+  }
+  $scope.storeProduct=function(id){
+    alert("hello");
+    socket.emit('varcompra',id);
   }
 
   $scope.categoryName = "Musica";
@@ -154,6 +171,12 @@ mnemonicApp.controller('comicsCtrl', function ($scope,$location,$http) {
 
   $http.get("http://localhost:800/getCategorias.php?name=Comics")
   .success(function(response) {$scope.products = response;});
+
+  socket.emit('retcompra',"");
+  socket.on('compras', function(compra){
+    $rootScope.compra = compra;
+   });
+
   $scope.delete=function(productid){
     $http.get("http://localhost:800/eliminateProduct.php?id="+productid)
     .success(function(response) {$scope.val = response[0].valid;
@@ -187,6 +210,10 @@ mnemonicApp.controller('comicsCtrl', function ($scope,$location,$http) {
   }
   $scope.edit=function(productId){
     $location.path('/editProduct/'+productId);
+  }
+  $scope.storeProduct=function(id){
+    alert("hello");
+    socket.emit('varcompra',id);
   }
 
   $scope.categoryName = "Comics";
@@ -197,6 +224,13 @@ mnemonicApp.controller('comicsCtrl', function ($scope,$location,$http) {
 mnemonicApp.controller('severalArticlesCtrl', function ($scope,$location,$http) {
   $http.get("http://localhost:800/getCategorias.php?name=Varios")
   .success(function(response) {$scope.products = response;});
+
+  socket.emit('retcompra',"");
+  socket.on('compras', function(compra){
+    $rootScope.compra = compra;
+   });
+
+
   $scope.delete=function(productid){
     $http.get("http://localhost:800/eliminateProduct.php?id="+productid)
     .success(function(response) {$scope.val = response[0].valid;
@@ -230,6 +264,10 @@ mnemonicApp.controller('severalArticlesCtrl', function ($scope,$location,$http) 
   }
   $scope.edit=function(productId){
     $location.path('/editProduct/'+productId);
+  }
+  $scope.storeProduct=function(id){
+    alert("hello");
+    socket.emit('varcompra',id);
   }
 
   $scope.categoryName = "Articulos Varios";
@@ -247,6 +285,11 @@ mnemonicApp.controller('moviesCtrl', function ($scope,$location,$http) {
   $http.get("http://localhost:800/getCategorias.php?name=Peliculas")
   .success(function(response) {$scope.products = response;});
 
+  socket.emit('retcompra',"");
+  socket.on('compras', function(compra){
+    $rootScope.compra = compra;
+   });
+
   $scope.delete=function(productid){
     $http.get("http://localhost:800/eliminateProduct.php?id="+productid)
     .success(function(response) {$scope.val = response[0].valid;
@@ -280,6 +323,10 @@ mnemonicApp.controller('moviesCtrl', function ($scope,$location,$http) {
 
   $scope.loadView =function(productId){
     $location.path('/productDetails/'+productId);
+  }
+  $scope.storeProduct=function(id){
+    alert("hello");
+    socket.emit('varcompra',id);
   }
 
   $scope.categoryName = "Peliculas";
