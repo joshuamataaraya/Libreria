@@ -23,6 +23,9 @@ mnemonicApp.config(['$routeProvider',
               if($cookies.get('login')=='Admin'){
                   $rootScope.isAdmin=true;
               }
+              if($cookies.get('isFrecuente')=='true'){
+                $scope.isFrecuente=true;
+              }
               $rootScope.isLogged=true;
             }
           }
@@ -53,6 +56,9 @@ mnemonicApp.config(['$routeProvider',
               if($cookies.get('login')=='Admin'){
                   $rootScope.isAdmin=true;
               }
+              if($cookies.get('isFrecuente')=='true'){
+                $scope.isFrecuente=true;
+              }
               $rootScope.isLogged=true;
             }
           }
@@ -67,6 +73,9 @@ mnemonicApp.config(['$routeProvider',
             {
               if($cookies.get('login')=='Admin'){
                   $rootScope.isAdmin=true;
+              }
+              if($cookies.get('isFrecuente')=='true'){
+                $scope.isFrecuente=true;
               }
               $rootScope.isLogged=true;
             }
@@ -83,6 +92,9 @@ mnemonicApp.config(['$routeProvider',
               if($cookies.get('login')=='Admin'){
                   $rootScope.isAdmin=true;
               }
+              if($cookies.get('isFrecuente')=='true'){
+                $scope.isFrecuente=true;
+              }
               $rootScope.isLogged=true;
             }
           }
@@ -97,6 +109,9 @@ mnemonicApp.config(['$routeProvider',
             {
               if($cookies.get('login')=='Admin'){
                   $rootScope.isAdmin=true;
+              }
+              if($cookies.get('isFrecuente')=='true'){
+                $scope.isFrecuente=true;
               }
               $rootScope.isLogged=true;
             }
@@ -113,6 +128,9 @@ mnemonicApp.config(['$routeProvider',
               if($cookies.get('login')=='Admin'){
                   $rootScope.isAdmin=true;
               }
+              if($cookies.get('isFrecuente')=='true'){
+                $scope.isFrecuente=true;
+              }
               $rootScope.isLogged=true;
             }
           }
@@ -127,6 +145,9 @@ mnemonicApp.config(['$routeProvider',
             {
               if($cookies.get('login')=='Admin'){
                   $rootScope.isAdmin=true;
+              }
+              if($cookies.get('isFrecuente')=='true'){
+                $scope.isFrecuente=true;
               }
               $rootScope.isLogged=true;
             }

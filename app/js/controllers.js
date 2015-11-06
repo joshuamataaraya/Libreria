@@ -56,9 +56,6 @@ mnemonicApp.controller('OffertsListCtrl', function ($scope, $http, $rootScope, $
     socket.emit('varcompra',id);
   }
 
-  // Setting a cookie
-  $cookies.put('myFavorite', 'oatmeal');
-
 
 });
 
@@ -324,9 +321,9 @@ mnemonicApp.controller('loginCtrl', function ($scope, $http,$rootScope,$location
          }else if ($scope.valid=='false') {
            $rootScope.isLogged=false;
          }else if ($scope.valid == 'clientFrecuente'){
-           $rootScope.frecuente = true;
            $rootScope.isLogged=true;
            $rootScope.emailV=$scope.email;
+           $cookies.put('isFrecuente','true');
            $location.path('#/offerts');
          }else{
               $rootScope.frecuente = false;
@@ -339,9 +336,9 @@ mnemonicApp.controller('loginCtrl', function ($scope, $http,$rootScope,$location
   $scope.logout=function(){
     $rootScope.isAdmin=false;
     $rootScope.isLogged=false;
-    $rootScope.frecuente = false;
     $rootScope.email="";
     $cookies.put('login','');
+    $cookies.put('isFrecuente','');
   };
   $scope.email = "";
   $scope.password="";
