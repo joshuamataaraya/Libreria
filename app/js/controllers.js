@@ -6,6 +6,14 @@ mnemonicApp.controller('OffertsListCtrl', function ($scope, $http, $rootScope, $
 
   $http.get("http://localhost:800/getOfertas.php")
   .success(function(response) {$scope.products = response;});
+
+  socket.emit('retcompra');
+  socket.on('compras', function(compra, isLogged, email){
+    $rootScope.compra = compra;
+    $rootScope.isLogged = isLogged;
+    $rootScope.email = email;
+    alert($rootScope.compra);
+   });
  
   $scope.newOffer = 0;
 
@@ -43,7 +51,8 @@ mnemonicApp.controller('OffertsListCtrl', function ($scope, $http, $rootScope, $
   }
 
   $scope.storeProduct=function(id){
-  //meter en la variable
+    alert("hello");
+    socket.emit('varcompra',id);
   }
 
 
@@ -300,26 +309,27 @@ mnemonicApp.controller('shoppingCartCtrl', function ($scope,$location) {
 mnemonicApp.controller('loginCtrl', function ($scope, $http,$rootScope,$location) {
   $scope.login=function(){
     $rootScope.isLogged=true;
-    $rootScope.isAdmin=true;
-    // var url = "http://localhost:800/userType.php?email="+ $scope.email+"&pass="+$scope.password;
-    // $http.get(url)
-    // .success(function(response) {$scope.valid = response;});
-    // angular.forEach($scope.valid, function(value, key) {
-    //     if(value.type=='admin'){
-    //       $rootScope.isAdmin=true;
-    //     }else if (value.type=='false') {
-    //       $rootScope.isLogged=false;
-    //     }else if (value.type == 'clientFrecuente'){
-    //       $rootScope.frecuente = true;
-    //       $rootScope.isLogged=true;
-    //     }else{
-    //          $rootScope.frecuente = false;
-    //          $rootScope.isLogged = true;
-    //        }
-    //   }
-    // );
-    $rootScope.emailV=$scope.email;
-    $location.path('#/offerts');
+     var url = "http://localhost:800/userType.php?email="+ $scope.email+"&pass="+$scope.password;
+     $http.get(url)
+     .success(function(response) {$scope.valid = response[0].type;
+         if($scope.valid=='admin'){
+           $rootScope.isAdmin=true;
+           $rootScope.emailV=$scope.email;
+           $location.path('#/offerts');
+         }else if ($scope.valid=='false') {
+           $rootScope.isLogged=false;
+         }else if ($scope.valid == 'clientFrecuente'){
+           $rootScope.frecuente = true;
+           $rootScope.isLogged=true;
+           $rootScope.emailV=$scope.email;
+           $location.path('#/offerts');
+         }else{
+              $rootScope.frecuente = false;
+              $rootScope.isLogged = true;
+              $rootScope.emailV=$scope.email;
+              $location.path('#/offerts');
+            }
+        });
   };
   $scope.logout=function(){
     $rootScope.isAdmin=false;
@@ -334,7 +344,7 @@ mnemonicApp.controller('loginCtrl', function ($scope, $http,$rootScope,$location
 mnemonicApp.controller('newLoginCtrl', function ($scope,$rootScope,$http,$location) {
   $scope.addUser=function(){
     $http.get("http://localhost:800/register.php?correo="+$scope.email+"&nombre="+$scope.nombre+"&contrasena="+$scope.password)
-    .success(function(response) {$scope.val = response[0].valid;});
+    .success(function(response) {$scope.val = response[0].valid});
     if($scope.val == "false"){
       $scope.message = "Usuario ya registrado dentro del sistema";
     }else{
@@ -432,7 +442,7 @@ mnemonicApp.controller('editProductCtrl', function ($scope, $routeParams, $http,
 
   $scope.categorias=['Libros','Musica','Comics','Articulos Varios', 'Peliculas'];
 });
-mnemonicApp.controller('compraCtrl', function ($scope, $routeParams, $http,) {
+mnemonicApp.controller('compraCtrl', function ($scope, $routeParams, $http) {
   $scope.token='_0tAa8tfdXT2CDwESYRbKK_pmWI9baqNZY3ptdip2uKqwh3xYFgn-FtM0ea';
 
 
