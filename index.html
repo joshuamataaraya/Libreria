@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="app/css/app.css">
   <script src="/bower_components/angular/angular.js"></script>
   <script src="/bower_components/angular-route/angular-route.js"></script>
+  <script src="/bower_components/angular-cookies/angular-cookies.js"></script>
+
   <script src="/bower_components/socket.io/socket.io-1.2.0.js"></script>
   <script>
     var socket = io(); //forma de accesar funciones de nodejs, se acceden por listeners
@@ -55,7 +57,7 @@
        <div ng-show="isLogged">
          <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
            <ul class="nav navbar-nav">
-             <li><a ng-click="logout()">Logout<span class="sr-only">(current)</span></a></li>
+             <li><a href="#/offerts" ng-click="logout()">Logout<span class="sr-only">(current)</span></a></li>
            </ul>
          </div>
        </div>

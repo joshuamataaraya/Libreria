@@ -4,7 +4,8 @@
 var mnemonicApp = angular.module('mnemonicApp', [
   'ngRoute',
 
-  'mnemonicControllers'
+  'mnemonicControllers',
+  'ngCookies'
 ]);
 mnemonicApp.config(['$httpProvider', function($httpProvider) {
         $httpProvider.defaults.useXDomain = true;
@@ -15,6 +16,17 @@ mnemonicApp.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
       when('/offerts', {
+        resolve:{
+          "check":function($rootScope,$cookies){
+            if($cookies.get('login')!='')
+            {
+              if($cookies.get('login')=='Admin'){
+                  $rootScope.isAdmin=true;
+              }
+              $rootScope.isLogged=true;
+            }
+          }
+        },
         templateUrl: 'app/partials/ofertas.html',
         controller: 'OffertsListCtrl'
       }).
@@ -30,33 +42,100 @@ mnemonicApp.config(['$routeProvider',
         controller: 'newLoginCtrl'
       }).
       when('/books', {
+        resolve:{
+          "check":function($rootScope,$cookies){
+            if($cookies.get('login')!='')
+            {
+              if($cookies.get('login')=='Admin'){
+                  $rootScope.isAdmin=true;
+              }
+              $rootScope.isLogged=true;
+            }
+          }
+        },
         templateUrl: 'app/partials/products.html',
         controller: 'booksCtrl'
       }).
       when('/music', {
+        resolve:{
+          "check":function($rootScope,$cookies){
+            if($cookies.get('login')!='')
+            {
+              if($cookies.get('login')=='Admin'){
+                  $rootScope.isAdmin=true;
+              }
+              $rootScope.isLogged=true;
+            }
+          }
+        },
         templateUrl: 'app/partials/products.html',
         controller: 'musicCtrl'
       }).
       when('/comics', {
+        resolve:{
+          "check":function($rootScope,$cookies){
+            if($cookies.get('login')!='')
+            {
+              if($cookies.get('login')=='Admin'){
+                  $rootScope.isAdmin=true;
+              }
+              $rootScope.isLogged=true;
+            }
+          }
+        },
         templateUrl: 'app/partials/products.html',
         controller: 'comicsCtrl'
       }).
       when('/severalArticles', {
+        resolve:{
+          "check":function($rootScope,$cookies){
+            if($cookies.get('login')!='')
+            {
+              if($cookies.get('login')=='Admin'){
+                  $rootScope.isAdmin=true;
+              }
+              $rootScope.isLogged=true;
+            }
+          }
+        },
         templateUrl: 'app/partials/products.html',
         controller: 'severalArticlesCtrl'
       }).
       when('/movies', {
+        resolve:{
+          "check":function($rootScope,$cookies){
+            if($cookies.get('login')!='')
+            {
+              if($cookies.get('login')=='Admin'){
+                  $rootScope.isAdmin=true;
+              }
+              $rootScope.isLogged=true;
+            }
+          }
+        },
         templateUrl: 'app/partials/products.html',
         controller: 'moviesCtrl'
       }).
       when('/productDetails/:products', {
+        resolve:{
+          "check":function($rootScope,$cookies){
+            if($cookies.get('login')!='')
+            {
+              if($cookies.get('login')=='Admin'){
+                  $rootScope.isAdmin=true;
+              }
+              $rootScope.isLogged=true;
+            }
+          }
+        },
         templateUrl: 'app/partials/productDetails.html',
         controller: 'detailsCtrl'
       }).
       when('/shoppingCart', {
         resolve:{
-          "check":function($location,$rootScope){
-            if(!$rootScope.isLogged){
+          "check":function($location,$rootScope,$cookies){
+            if($cookies.get('login')=='')
+            {
               $location.path('/login');
             }
           }
@@ -72,13 +151,14 @@ mnemonicApp.config(['$routeProvider',
         //     }
         //   }
         // },
+
         templateUrl: 'app/partials/compra.html',
         controller: 'compraCtrl'
       }).
       when('/addProduct', {
         resolve:{
-          "check":function($location,$rootScope){
-            if(!$rootScope.isLogged ){
+          "check":function($location,$rootScope,$cookies){
+            if($cookies.get('login') !=''  ){
               if(!$rootScope.isAdmin){
                 alert('Esta opcion solo esta disponible para administradores')
                 $location.path('/login');
@@ -91,8 +171,8 @@ mnemonicApp.config(['$routeProvider',
       }).
       when('/editProduct/:products', {
         resolve:{
-          "check":function($location,$rootScope){
-            if(!$rootScope.isLogged ){
+          "check":function($location,$rootScope,$cookies){
+            if($cookies.get('login') !=''){
               if(!$rootScope.isAdmin){
                 alert('Esta opcion solo esta disponible para administradores')
                 $location.path('/login');
@@ -105,8 +185,8 @@ mnemonicApp.config(['$routeProvider',
       }).
       when('/specifyDiscount', {
         resolve:{
-          "check":function($location,$rootScope){
-            if(!$rootScope.isLogged ){
+          "check":function($location,$rootScope,$cookies){
+            if($cookies.get('login') !=''){
               if(!$rootScope.isAdmin){
                 alert('Esta opcion solo esta disponible para administradores')
                 $location.path('/login');

@@ -2,7 +2,7 @@
 
 /* Controllers */
 var mnemonicApp = angular.module('mnemonicControllers', []);
-mnemonicApp.controller('OffertsListCtrl', function ($scope, $http, $rootScope, $location, $route) {
+mnemonicApp.controller('OffertsListCtrl', function ($scope, $http, $rootScope, $location, $route, $cookies) {
 
   $http.get("http://localhost:800/getOfertas.php")
   .success(function(response) {$scope.products = response;});
@@ -44,7 +44,11 @@ mnemonicApp.controller('OffertsListCtrl', function ($scope, $http, $rootScope, $
 
   $scope.storeProduct=function(id){
   //meter en la variable
+    alert($cookies.get('login'));
   }
+
+  // Setting a cookie
+  $cookies.put('myFavorite', 'oatmeal');
 
 
 });
@@ -297,8 +301,9 @@ mnemonicApp.controller('shoppingCartCtrl', function ($scope,$location) {
 
   $scope.viewCart=viewCart();
 });
-mnemonicApp.controller('loginCtrl', function ($scope, $http,$rootScope,$location) {
+mnemonicApp.controller('loginCtrl', function ($scope, $http,$rootScope,$location,$cookies) {
   $scope.login=function(){
+    $cookies.put('login','User');
     $rootScope.isLogged=true;
     $rootScope.isAdmin=true;
     // var url = "http://localhost:800/userType.php?email="+ $scope.email+"&pass="+$scope.password;
@@ -325,6 +330,7 @@ mnemonicApp.controller('loginCtrl', function ($scope, $http,$rootScope,$location
     $rootScope.isLogged=false;
     $rootScope.frecuente = false;
     $rootScope.email="";
+    $cookies.put('login','');
   };
   $rootScope.email="";
   $scope.password="";
@@ -380,7 +386,7 @@ mnemonicApp.controller('editProductCtrl', function ($scope, $routeParams, $http)
 
   }
 });
-mnemonicApp.controller('compraCtrl', function ($scope, $routeParams, $http,) {
+mnemonicApp.controller('compraCtrl', function ($scope, $routeParams, $http  ) {
   $scope.token='_0tAa8tfdXT2CDwESYRbKK_pmWI9baqNZY3ptdip2uKqwh3xYFgn-FtM0ea';
 
 
