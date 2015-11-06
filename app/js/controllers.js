@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 /* Controllers */
 var mnemonicApp = angular.module('mnemonicControllers', []);
@@ -12,26 +12,26 @@ mnemonicApp.controller('OffertsListCtrl', function ($scope, $http, $rootScope, $
   $scope.delete=function(productid){
     $http.get("http://localhost:800/eliminateOferta.php?id="+productid)
       .success(function(response) {$scope.val = response[0].valid;
-                                      if($scope.val == true){
-                                      alert("Oferta eliminada!");
-                                      $route.reload();
-                                    }
-                                  });
-    
+                                    if($scope.val == true){
+                                    alert("Oferta eliminada!");
+                                    $route.reload();
+                                  }
+                                });
+
   };
   $scope.modifyOffert=function(productId, price, offer){
 
     var price_int = Number(price);
-    
+
 
     if(offer < price_int){
       $http.get("http://localhost:800/modifyOferta.php?id="+productId+"&precio=+"+offer)
       .success(function(response) {$scope.val = response[0].valid;
-                                    if($scope.val == true){
-                                      alert("Oferta cambiada!");
-                                      $route.reload();
-                                    }
-                                  });
+                                      if($scope.val == true){
+                                        alert("Oferta cambiada!");
+                                        $route.reload();
+                                      }
+                                    });
     }
     else{
       alert("Esta poniendo su oferta mayor que el precio actual, se recomienda modificar el producto primero");
@@ -40,6 +40,10 @@ mnemonicApp.controller('OffertsListCtrl', function ($scope, $http, $rootScope, $
 
   $scope.loadView =function(productId){
     $location.path('/productDetails/'+productId);
+  }
+
+  $scope.storeProduct=function(id){
+  //meter en la variable
   }
 
 
@@ -62,7 +66,7 @@ mnemonicApp.controller('booksCtrl', function ($scope,$location,$http,$route) {
 
   $scope.addOffert=function(productId, precio, offer){
     var price_int = Number(precio);
-    
+
     if(offer < price_int){
       $http.get("http://localhost:800/createOferta.php?id="+productId+"&precio="+offer)
       .success(function(response) {$scope.val = response[0].valid;
@@ -107,7 +111,7 @@ mnemonicApp.controller('musicCtrl', function ($scope,$location,$http) {
 
   $scope.addOffert=function(productId, precio, offer){
     var price_int = Number(precio);
-    
+
     if(offer < price_int){
       $http.get("http://localhost:800/createOferta.php?id="+productId+"&precio="+offer)
       .success(function(response) {$scope.val = response[0].valid;
@@ -150,7 +154,7 @@ mnemonicApp.controller('comicsCtrl', function ($scope,$location,$http) {
 
   $scope.addOffert=function(productId, precio, offer){
     var price_int = Number(precio);
-    
+
     if(offer < price_int){
       $http.get("http://localhost:800/createOferta.php?id="+productId+"&precio="+offer)
       .success(function(response) {$scope.val = response[0].valid;
@@ -193,7 +197,7 @@ mnemonicApp.controller('severalArticlesCtrl', function ($scope,$location,$http) 
 
   $scope.addOffert=function(productId, precio, offer){
     var price_int = Number(precio);
-    
+
     if(offer < price_int){
       $http.get("http://localhost:800/createOferta.php?id="+productId+"&precio="+offer)
       .success(function(response) {$scope.val = response[0].valid;
@@ -243,7 +247,7 @@ mnemonicApp.controller('moviesCtrl', function ($scope,$location,$http) {
 
   $scope.addOffert=function(productId, precio, offer){
     var price_int = Number(precio);
-    
+
     if(offer < price_int){
       $http.get("http://localhost:800/createOferta.php?id="+productId+"&precio="+offer)
       .success(function(response) {$scope.val = response[0].valid;
@@ -306,7 +310,7 @@ mnemonicApp.controller('loginCtrl', function ($scope, $http,$rootScope,$location
     //     }else if (value.type=='false') {
     //       $rootScope.isLogged=false;
     //     }else if (value.type == 'clientFrecuente'){
-    //       $rootScope.frecuente = true;   
+    //       $rootScope.frecuente = true;
     //       $rootScope.isLogged=true;
     //     }else{
     //          $rootScope.frecuente = false;
@@ -337,7 +341,7 @@ mnemonicApp.controller('newLoginCtrl', function ($scope,$rootScope,$http,$locati
       $rootScope.email = $scope.email;
       $rootScope.isLogged = true;
       $location.path('#/offerts');
-    } 
+    }
   }
   $scope.message ="";
   $scope.nombre="";
@@ -368,18 +372,17 @@ mnemonicApp.controller('specifyDiscountCtrl', function ($scope, $http, $location
     var disc = discount/100;
     $http.get("http://localhost:800/changeDiscount.php?porcentaje="+disc)
     .success(function(response) {$scope.val = response[0].valid;
-                                    if($scope.val == true){
-                                      alert("Descuento cambiado!");
-                                       $location.path('#/offerts');
-                                    }
-                                  }); 
+    if($scope.val == true){
+      alert("Descuento cambiado!");
+       $location.path('#/offerts');
+      }
+    });
   }
 });
 mnemonicApp.controller('detailsCtrl', function ($scope, $routeParams, $http) {
   $http.get("http://localhost:800/getProducto.php?id="+$routeParams.products)
   .success(function(response) {$scope.productDetails = response[0]});
-  
-                                     
+
 });
 mnemonicApp.controller('resenaCtrl', function ($scope, $routeParams, $http, $rootScope, $route) {
   $http.get("http://localhost:800/getProductoBought.php?cliente="+$rootScope.emailV)
@@ -428,4 +431,25 @@ mnemonicApp.controller('editProductCtrl', function ($scope, $routeParams, $http,
   $scope.subcat = "";
 
   $scope.categorias=['Libros','Musica','Comics','Articulos Varios', 'Peliculas'];
+});
+mnemonicApp.controller('compraCtrl', function ($scope, $routeParams, $http,) {
+  $scope.token='_0tAa8tfdXT2CDwESYRbKK_pmWI9baqNZY3ptdip2uKqwh3xYFgn-FtM0ea';
+
+
+  // $http.post('https://www.sandbox.paypal.com/cgi-bin/webscr',
+  //     {
+  //         tx: $routeParams.tx,
+  //         at: $scope.token,
+  //         cmd:"_notify-synch"
+  //     }
+  //   ).then(function successCallback(response) {
+  //     // this callback will be called asynchronously
+  //     // when the response is available
+  //     alert('Here')
+  //   }, function errorCallback(response) {
+  //     // called asynchronously if an error occurs
+  //     // or server returns response with an error status.
+  //     alert('BAD')
+  //   });
+
 });
