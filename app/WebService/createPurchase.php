@@ -9,11 +9,6 @@ $Productos     = mysql_real_escape_string($Productosp);
 
 $myArray = explode(',', $Productos);
 
-$Cantidadp = $_GET["cantidad"];  //utiliza un valor decimal
-$Cantidad    = mysql_real_escape_string($Cantidadp);
-
-$myArrayCantidad = explode(',', $Cantidad);
-
 $Clientep = $_GET["cliente"];  //utiliza un valor decimal
 $Cliente     = mysql_real_escape_string($Clientep);
 
@@ -34,16 +29,12 @@ while($res = mysql_fetch_array($qurU)){
 	$idClient = $idCliente;
 }
 
-print_r($idClient);
-
-
 $result = array();
 $Cant = 0;
 foreach ($myArray as &$valor) {
 
 	$produc = intval($valor);
-	$productCant = intval($myArrayCantidad[$Cant]);
-    $qur = mysql_query("insert into compras values('$idPurchase', '$valor','$idClient', '$productCant',curdate())");
+    $qur = mysql_query("insert into compras values('$idPurchase', '$valor','$idClient', 1,curdate())");
     $Cant = $Cant +1;
     $result[] = array("valid" => $qur);
 }

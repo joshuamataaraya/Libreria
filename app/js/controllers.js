@@ -387,17 +387,18 @@ mnemonicApp.controller('loginCtrl', function ($scope, $http,$rootScope,$location
   $scope.password="";
 });
 
-mnemonicApp.controller('newLoginCtrl', function ($scope,$rootScope,$http,$location) {
+mnemonicApp.controller('newLoginCtrl', function ($scope,$rootScope,$http,$location, $cookies) {
   $scope.addUser=function(){
     $http.get("http://localhost:800/register.php?correo="+$scope.email+"&nombre="+$scope.nombre+"&contrasena="+$scope.password)
-    .success(function(response) {$scope.val = response[0].valid});
+    .success(function(response) {$scope.val = response[0].valid;
     if($scope.val == "false"){
       $scope.message = "Usuario ya registrado dentro del sistema";
     }else{
-      $rootScope.email = $scope.email;
+      $cookies.put('login',$scope.email);
       $rootScope.isLogged = true;
       $location.path('#/offerts');
     }
+    });
   }
   $scope.message ="";
   $scope.nombre="";
@@ -438,12 +439,15 @@ mnemonicApp.controller('detailsCtrl', function ($scope, $routeParams, $http) {
   .success(function(response) {$scope.productDetails = response[0]});
 
 });
-mnemonicApp.controller('resenaCtrl', function ($scope, $routeParams, $http, $rootScope, $route) {
-  $http.get("http://localhost:800/getProductoBought.php?cliente="+$rootScope.emailV)
+mnemonicApp.controller('resenaCtrl', function ($scope, $routeParams, $http, $rootScope, $route, $cookies) {
+  var email = $cookies.get("login");
+  $http.get("http://localhost:800/getProductoBought.php?cliente="+email)
   .success(function(response) {$scope.products = response});
 
+
   $scope.addResena= function(productid, resena){
-    $http.get("http://localhost:800/setResena.php?cliente="+$rootScope.emailV+"&producto="+productid+"&descripcion="+resena)
+    var email = $cookies.get("login");
+    $http.get("http://localhost:800/setResena.php?cliente="+email+"&producto="+productid+"&descripcion="+resena)
     .success(function(response) {$scope.val = response[0].valid;
                                     if($scope.val == true){
                                        alert("Reseña Generada!");
@@ -493,14 +497,21 @@ mnemonicApp.controller('compraCtrl', function ($scope, $routeParams, $http, $roo
   socket.on('compras', function(compra){
     $rootScope.compra = compra;
     var n = $rootScope.compra.length;
-    var compra = $rootScope.compra.substring(0,n-1);
+    var compra = $rootScope.compra.substring(0,n-1); 
 
     var email = $cookies.get("login");
-    alert(email);
 
     $http.get("http://localhost:800/createPurchase.php?productos="+compra+"&cliente="+email)
-    .success(function(response) {$scope.productDetails = response[0]});
+    .success(function(response) {$scope.products = response[0]});
+
+
+
    });
+
+  var email = $cookies.get("login");
+  var msg = "Gracias por su compra en Mnemonic, consulte paypal para su factura";
+  socket.emit('email',msg, email);
+  socket.emit('elimcompra',"");
 
   ///////////cookie.get("login")????
 

@@ -24,7 +24,7 @@ mnemonicApp.config(['$routeProvider',
                   $rootScope.isAdmin=true;
               }
               if($cookies.get('isFrecuente')=='true'){
-                $scope.isFrecuente=true;
+                $rootScope.isFrecuente=true;
               }
               $rootScope.isLogged=true;
             }
@@ -57,7 +57,7 @@ mnemonicApp.config(['$routeProvider',
                   $rootScope.isAdmin=true;
               }
               if($cookies.get('isFrecuente')=='true'){
-                $scope.isFrecuente=true;
+                $rootScope.isFrecuente=true;
               }
               $rootScope.isLogged=true;
             }
@@ -75,7 +75,7 @@ mnemonicApp.config(['$routeProvider',
                   $rootScope.isAdmin=true;
               }
               if($cookies.get('isFrecuente')=='true'){
-                $scope.isFrecuente=true;
+                $rootScope.isFrecuente=true;
               }
               $rootScope.isLogged=true;
             }
@@ -93,7 +93,7 @@ mnemonicApp.config(['$routeProvider',
                   $rootScope.isAdmin=true;
               }
               if($cookies.get('isFrecuente')=='true'){
-                $scope.isFrecuente=true;
+                $rootScope.isFrecuente=true;
               }
               $rootScope.isLogged=true;
             }
@@ -111,7 +111,7 @@ mnemonicApp.config(['$routeProvider',
                   $rootScope.isAdmin=true;
               }
               if($cookies.get('isFrecuente')=='true'){
-                $scope.isFrecuente=true;
+                $rootScope.isFrecuente=true;
               }
               $rootScope.isLogged=true;
             }
@@ -129,7 +129,7 @@ mnemonicApp.config(['$routeProvider',
                   $rootScope.isAdmin=true;
               }
               if($cookies.get('isFrecuente')=='true'){
-                $scope.isFrecuente=true;
+                $rootScope.isFrecuente=true;
               }
               $rootScope.isLogged=true;
             }
@@ -147,7 +147,7 @@ mnemonicApp.config(['$routeProvider',
                   $rootScope.isAdmin=true;
               }
               if($cookies.get('isFrecuente')=='true'){
-                $scope.isFrecuente=true;
+                $rootScope.isFrecuente=true;
               }
               $rootScope.isLogged=true;
             }
@@ -169,13 +169,20 @@ mnemonicApp.config(['$routeProvider',
         controller: 'shoppingCartCtrl'
       }).
       when('/compra', {
-        // resolve:{
-        //   "check":function($location,$rootScope){
-        //     if(!$rootScope.isLogged){
-        //       $location.path('/login');
-        //     }
-        //   }
-        // },
+        resolve: {
+          "check":function($rootScope,$cookies){
+            if($cookies.get('login')!='')
+            {
+              if($cookies.get('login')=='Admin'){
+                  $rootScope.isAdmin=true;
+              }
+              if($cookies.get('isFrecuente')=='true'){
+                $rootScope.isFrecuente=true;
+              }
+              $rootScope.isLogged=true;
+            }
+          }
+        },
 
         templateUrl: 'app/partials/compra.html',
         controller: 'compraCtrl'

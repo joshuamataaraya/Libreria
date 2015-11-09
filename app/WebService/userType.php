@@ -29,7 +29,7 @@ if($val1 == 1){
 		$result[] = array("type" => "client");
 	}
 }else {
-	$qur = mysql_query("select true as boolean from administradores a where a.correo = '$Email2' and a.password = '$Pass2' ");
+	$qur = mysql_query("select true as boolean from administradores a where a.username = '$Email2' and a.password = '$Pass2' ");
 	while($r = mysql_fetch_array($qur)){
   		extract($r);
   		$val1 = $boolean;

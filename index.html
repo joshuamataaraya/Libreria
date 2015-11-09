@@ -84,7 +84,7 @@
            <li ng-hide="isAdmin"><a href="#/shoppingCart">Carro de compra<span class="sr-only">(current)</span></a></li>
 
            <li ng-show="isAdmin"><a href="#/addProduct">Agregar Producto<span class="sr-only">(current)</span></a></li>
-           <li ng-show="isLogged"><a href="#/resenas">Agregar reseñas<span class="sr-only">(current)</span></a></li>
+           <li ng-if="isLogged && !isAdmin"><a href="#/resenas">Agregar reseñas<span class="sr-only">(current)</span></a></li>
            <li ng-show="isAdmin"><a href="#/specifyDiscount">Cambiar Descuento<span class="sr-only">(current)</span></a></li>
          </ul>
        </div>

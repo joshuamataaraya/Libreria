@@ -13,18 +13,18 @@ var transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
         user: 'adrianlq8@gmail.com',
-        pass: '' //hay que crear una cuenta especial para mnemonic
+        pass: 'Lopezx01' //hay que crear una cuenta especial para mnemonic
     }
 });
 
 // send mail with defined transport object
 
 io.on("connection", function(socket) {
-    socket.on('email', function(msg){
+    socket.on('email', function(msg, usr ){
         var mailOptions = {
-            from: 'Mnemonic ✔ <adrianlq8@gmail.com>', // sender address
-            to: 'adrianlq8@gmail.com', // list of receivers
-            subject: 'Hello ✔', // Subject line
+            from: 'Mnemonic ✔ <mnemonicsalib@gmail.com>', // sender address
+            to: usr, // list of receivers
+            subject: 'Compra', // Subject line
             text: msg // plaintext body
         };
         transporter.sendMail(mailOptions, function(error, info){
@@ -43,6 +43,10 @@ io.on("connection", function(socket) {
         compra = compra;
         console.log(compra);
         io.to(socket.id).emit('compras', compra);  
+    });
+    socket.on('elimcompra', function(){
+        compra = "";
+        console.log(compra);  
     });
 });
 
